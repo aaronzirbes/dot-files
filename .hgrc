@@ -1,0 +1,17 @@
+[ui]
+username = Aaron J. Zirbes <azirbes@bloomhealthco.com>
+ignore = ~/.hgignore_global
+
+[extensions]
+fetch =
+hgext.extdiff =
+
+[alias]
+nudge = push --rev .
+
+[extdiff]
+cmd.vimdiff =
+
+[alias]
+vi = vimdiff
+vim = vimdiff
