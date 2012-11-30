@@ -10,3 +10,5 @@ target-eclipse/*
 testResults/*
 *.sql.gz
 *.swo
+.settings/org.eclipse.jdt.groovy.core.prefs
+.classpath
