@@ -1,50 +1,65 @@
 # Bloom Vars
-export BITBUCKET_SANDBOX="$HOME/dev/grails/bloom"
+export GITHUB_USERNAME='aaronzirbes'
+export BLOOM_GIT_SANDBOX="$HOME/dev/grails/bloom"
 
 export PATH="$HOME/bin:$PATH"
 
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/bitbucket-sandbox.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/bloom-logs.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/bloom-plugins.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/ctags.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/grep-colors.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/groovy-grails.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/java-home.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/ls-colors.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/mysql.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/rabbitmq.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/truecrypt-config-switch.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/markdown.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/vim_dev.sh
-. $BITBUCKET_SANDBOX/bloom-dev-scripts/bash/prompt.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/bitbucket-sandbox.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-logs.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-plugins.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/ctags.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/grep-colors.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/groovy-grails.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/java-home.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/ls-colors.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/mysql.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/rabbitmq.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/truecrypt-config-switch.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
 
 function bloom-update-plugins() {
     pushd ~/bc > /dev/null
-    hg fetch && grails --non-interactive clean && grails --non-interactive compile && grails maven-install
+    current_branch=`git branch --no-color | grep -E '^\* ' |sed -e 's/^\* //'`
+    git pull origin ${current_branch} && grails --non-interactive clean && grails --non-interactive compile && grails maven-install
     popd > /dev/null
 
     pushd ~/bd > /dev/null
-    hg fetch && grails --non-interactive clean && grails --non-interactive compile && grails maven-install
+    current_branch=`git branch --no-color | grep -E '^\* ' |sed -e 's/^\* //'`
+    git pull origin ${current_branch} && grails --non-interactive clean && grails --non-interactive compile && grails maven-install
     popd > /dev/null
 }
 
-function hg-bu() {
+alias ll='ls -l'
+alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
+
+function git-bu() {
     branch=$1
     pushd ~/bc > /dev/null
-    hg fetch && hg up ${branch}
+    git pull origin ${branch} && git checkout ${branch}
     popd > /dev/null
 
     pushd ~/bd > /dev/null
-    hg fetch && hg up ${branch}
+    git pull origin ${branch} && git checkout ${branch}
     popd > /dev/null
 
     pushd ~/bh > /dev/null
-    hg fetch && hg up ${branch}
+    git pull origin ${branch} && git checkout ${branch}
     popd > /dev/null
 
     pushd ~/bo > /dev/null
-    hg fetch && hg up ${branch}
+    git pull origin ${branch} && git checkout ${branch}
     popd > /dev/null
 }
 
-export PS1='\e[1;32m\w\e[1;37m$(hgmin_ps1)$(gitmin_ps1)\e[1;34m `date`\e[0m\n→ '
+export simple_arrow='→'
+export simple_fail='!'
+export fancy_arrow='➦'
+export fancy_fail='✘'
+
+export PS1='\e[1;32m\w\e[1;37m$(hgmin_ps1)$(gitmin_ps1)\e[1;34m `date`\e[0m\n${fancy_arrow} '
+
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
+[[ -s "/Users/azirbes/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "/Users/azirbes/.gvm/bin/gvm-init.sh"
+

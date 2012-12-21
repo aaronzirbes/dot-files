@@ -3,15 +3,19 @@
 	email = aaron.zirbes@gmail.com
 [core]
 	excludesfile = /Users/azirbes/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+    editor = vim
 [merge]
 	tool = vimdiff
 [diff]
 	tool = vimdiff
 [color]
 	ui = true
+[web]
+	browser = macosx
+[browser "macosx"]
+	cmd = open
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[credential]
+	helper = osxkeychain
