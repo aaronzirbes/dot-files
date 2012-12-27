@@ -19,6 +19,8 @@ export PATH="$HOME/bin:$PATH"
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
 
+. ~/lib/git-prompt.sh
+
 function bloom-update-plugins() {
     pushd ~/bc > /dev/null
     current_branch=`git branch --no-color | grep -E '^\* ' |sed -e 's/^\* //'`
@@ -58,7 +60,12 @@ export simple_fail='!'
 export fancy_arrow='➦'
 export fancy_fail='✘'
 
-export PS1='\e[1;32m\w\e[1;37m$(hgmin_ps1)$(gitmin_ps1)\e[1;34m `date`\e[0m\n${fancy_arrow} '
+#export PS1='\e[1;32m\w\e[1;37m$(hgmin_ps1)$(gitmin_ps1)\e[1;34m `date`\e[0m\n${fancy_arrow} '
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+
+export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${fancy_arrow} '
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/azirbes/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "/Users/azirbes/.gvm/bin/gvm-init.sh"
