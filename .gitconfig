@@ -2,7 +2,7 @@
 	name = Aaron J. Zirbes
 	email = aaron.zirbes@gmail.com
 [core]
-	excludesfile = /Users/azirbes/.gitignore_global
+	excludesfile = /Users/ajz/.gitignore_global
     editor = vim
 [merge]
 	tool = vimdiff
@@ -19,3 +19,5 @@
 	path = 
 [credential]
 	helper = osxkeychain
+[push]
+	default = simple
