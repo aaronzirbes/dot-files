@@ -19,3 +19,17 @@
 	path = 
 [credential]
 	helper = osxkeychain
+[push]
+	default = simple
+[alias]
+    l = log --graph
+    ls = log --graph --stat
+    ffs = flow feature start
+    ffp = flow feature publish
+    prud = pull --rebase upstream develop
+    riud = rebase -i upstream/develop
+    caa = commit -a --amend
+    pf = push -f
+
+[difftool]
+	prompt = false
