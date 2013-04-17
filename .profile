@@ -2,7 +2,7 @@
 export GITHUB_USERNAME='aaronzirbes'
 export BLOOM_GIT_SANDBOX="$HOME/dev/grails/bloom"
 
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:$PATH"
 
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bitbucket-sandbox.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-logs.sh
@@ -37,22 +37,13 @@ alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 
 function git-bu() {
-    branch=$1
-    pushd ~/bc > /dev/null
-    git pull origin ${branch} && git checkout ${branch}
-    popd > /dev/null
+    projects="lib_paymentSchedule lib_common lib_domain webapp_bloomhealth webapp_bhbo"
+    for project in $projects; do
 
-    pushd ~/bd > /dev/null
-    git pull origin ${branch} && git checkout ${branch}
-    popd > /dev/null
-
-    pushd ~/bh > /dev/null
-    git pull origin ${branch} && git checkout ${branch}
-    popd > /dev/null
-
-    pushd ~/bo > /dev/null
-    git pull origin ${branch} && git checkout ${branch}
-    popd > /dev/null
+        pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
+        git fetch --all && git pull
+        popd > /dev/null
+    done
 }
 
 export simple_arrow='→'
@@ -67,6 +58,10 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 
 export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} '
+
+. $HOME/lib/git-completion.bash
+
+java6
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "$HOME/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "$HOME/.gvm/bin/gvm-init.sh"

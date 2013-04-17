@@ -21,3 +21,9 @@
 	helper = osxkeychain
 [push]
 	default = simple
+[alias]
+    co = checkout
+    l = log --graph
+    ls = log --graph --stat
+[difftool]
+	prompt = false
