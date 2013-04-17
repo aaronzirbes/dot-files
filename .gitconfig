@@ -25,5 +25,10 @@
     co = checkout
     l = log --graph
     ls = log --graph --stat
+    caa = commit -a --amend
+    ffs = flow feature start
+    ffp = flow feature publish
+    prud = pull --rebase upstream develop
+    riud = rebase -i upstream/develop
 [difftool]
 	prompt = false
