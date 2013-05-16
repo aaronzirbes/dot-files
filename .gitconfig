@@ -23,8 +23,12 @@
 	default = simple
 [alias]
     co = checkout
-    l = log --graph
-    ls = log --graph --stat
+    l = log --relative --graph
+    s = status
+    ls = log --relative --graph --stat
+    df = diff --relative --name-only upstream/develop
+    du = diff --relative upstream/develop
+    pf = push -f
     caa = commit -a --amend
     ffs = flow feature start
     ffp = flow feature publish

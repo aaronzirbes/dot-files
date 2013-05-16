@@ -5,7 +5,7 @@ export BLOOM_GIT_SANDBOX="$HOME/dev/grails/bloom"
 export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:$PATH"
 
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bitbucket-sandbox.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-logs.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-logo.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-plugins.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/ctags.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/grep-colors.sh
@@ -33,10 +33,13 @@ function bloom-update-plugins() {
     popd > /dev/null
 }
 
+export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+
 alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
+alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
 
-function git-bu() {
+function git-fa() {
     projects="lib_paymentSchedule lib_common lib_domain webapp_bloomhealth webapp_bhbo"
     for project in $projects; do
 
@@ -44,6 +47,48 @@ function git-bu() {
         git fetch --all && git pull
         popd > /dev/null
     done
+}
+
+function git-fu() {
+    projects="lib_paymentSchedule lib_common lib_domain webapp_bloomhealth webapp_bhbo"
+    for project in $projects; do
+
+        pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
+        git fetch upstream && git pull
+        popd > /dev/null
+    done
+}
+
+function bloom-build-world() {
+    bloomLogo
+    git-fu
+    gradle_projects="lib_paymentSchedule lib_common"
+    for project in $gradle_projects; do
+        echo "Installing library '${project}'..."
+        pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
+        gradle clean install
+        popd > /dev/null
+    done
+
+    grails_plugins="lib_domain"
+    for project in $grails_plugins; do
+        echo "Installing plugin '${project}'..."
+        pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
+        grails maven-install
+        popd > /dev/null
+    done
+
+    grails_projects="webapp_bloomhealth/bloomhealth webapp_bhbo/bhbo bloomhealth/webapps/consumer"
+    for project in $grails_projects; do
+        echo "Building '${project}'..."
+        pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
+        g-ccp
+        popd > /dev/null
+    done
+}
+
+function g-findword() {
+    grep --include '*.groovy' -rE "\<${1}\>" .
 }
 
 export simple_arrow='→'
