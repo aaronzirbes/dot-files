@@ -20,7 +20,7 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/logo.sh
+#. $BLOOM_GIT_SANDBOX/dev_scripts/bash/logo.sh
 
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
