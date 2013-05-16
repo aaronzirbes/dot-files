@@ -14,25 +14,25 @@
 	browser = macosx
 [browser "macosx"]
 	cmd = open
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
 [credential]
 	helper = osxkeychain
 [push]
 	default = simple
 [alias]
-    co = checkout
-    l = log --relative --graph
-    s = status
-    ls = log --relative --graph --stat
-    df = diff --relative --name-only upstream/develop
-    du = diff --relative upstream/develop
-    pf = push -f
     caa = commit -a --amend
-    ffs = flow feature start
+    cd = checkout develop
+    co = checkout
+    df = diff --relative --name-only upstream/develop
+    dtud = difftool upstream/develop..HEAD --
+    du = diff --relative upstream/develop
+    fa = fetch --all
     ffp = flow feature publish
+    ffs = flow feature start
+    l = log --relative --graph -n 20
+    ls = log --relative --graph --stat -n 20
+    pf = push -f
     prud = pull --rebase upstream develop
     riud = rebase -i upstream/develop
+    s = status
 [difftool]
 	prompt = false

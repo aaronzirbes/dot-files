@@ -3,6 +3,8 @@ export GITHUB_USERNAME='aaronzirbes'
 export BLOOM_GIT_SANDBOX="$HOME/dev/grails/bloom"
 
 export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:$PATH"
+# Adding ruby gems to path
+export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PATH"
 
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bitbucket-sandbox.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-logo.sh
@@ -18,6 +20,10 @@ export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:$PATH"
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/logo.sh
+
+export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
+export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
 
 . ~/lib/git-prompt.sh
 
@@ -40,9 +46,9 @@ alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
 
 function git-fa() {
-    projects="lib_paymentSchedule lib_common lib_domain webapp_bloomhealth webapp_bhbo"
+    branch=$1
+    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_common lib_domain bloomhealth"
     for project in $projects; do
-
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch --all && git pull
         popd > /dev/null
@@ -50,9 +56,9 @@ function git-fa() {
 }
 
 function git-fu() {
-    projects="lib_paymentSchedule lib_common lib_domain webapp_bloomhealth webapp_bhbo"
+    branch=$1
+    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_common lib_domain bloomhealth"
     for project in $projects; do
-
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch upstream && git pull
         popd > /dev/null
@@ -60,6 +66,7 @@ function git-fu() {
 }
 
 function bloom-build-world() {
+    echo "Building the Bloom World!"
     bloomLogo
     git-fu
     gradle_projects="lib_paymentSchedule lib_common"
@@ -91,7 +98,16 @@ function g-findword() {
     grep --include '*.groovy' -rE "\<${1}\>" .
 }
 
+alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
+
 export simple_arrow='→'
+
+function scrap() {
+    vim ~/.scrap.groovy
+}
+
+java6
+
 export simple_fail='!'
 export fancy_arrow='➦'
 export fancy_fail='✘'
@@ -107,6 +123,8 @@ export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} 
 . $HOME/lib/git-completion.bash
 
 java6
+
+set -o vi
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "$HOME/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "$HOME/.gvm/bin/gvm-init.sh"
