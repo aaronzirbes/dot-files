@@ -20,7 +20,6 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
-#. $BLOOM_GIT_SANDBOX/dev_scripts/bash/logo.sh
 
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
@@ -39,14 +38,11 @@ function bloom-update-plugins() {
     popd > /dev/null
 }
 
-export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
-
 alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
-alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
+alias g-mi="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
 
 function git-fa() {
-    branch=$1
     projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
@@ -56,7 +52,7 @@ function git-fa() {
 }
 
 function git-fu() {
-    branch=$1
+    bloomLogo
     projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
@@ -69,11 +65,13 @@ function bloom-build-world() {
     echo "Building the Bloom World!"
     bloomLogo
     git-fu
-    gradle_projects="lib_paymentSchedule"
+    gradle_projects="bloomhealth lib_paymentSchedule"
     for project in $gradle_projects; do
         echo "Installing library '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        gradle clean install
+        gradle clean
+        gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true || \
+            gradle install
         popd > /dev/null
     done
 
@@ -81,7 +79,7 @@ function bloom-build-world() {
     for project in $grails_plugins; do
         echo "Installing plugin '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        grails maven-install
+        grails package && grails maven-install
         popd > /dev/null
     done
 
@@ -89,7 +87,7 @@ function bloom-build-world() {
     for project in $grails_projects; do
         echo "Building '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        g-ccp
+        grails clean && grails compile && grails package
         popd > /dev/null
     done
 }
@@ -105,8 +103,6 @@ export simple_arrow='→'
 function scrap() {
     vim ~/.scrap.groovy
 }
-
-java6
 
 export simple_fail='!'
 export fancy_arrow='➦'
