@@ -47,7 +47,7 @@ alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true
 
 function git-fa() {
     branch=$1
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_common lib_domain bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch --all && git pull
@@ -57,7 +57,7 @@ function git-fa() {
 
 function git-fu() {
     branch=$1
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_common lib_domain bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch upstream && git pull
@@ -69,7 +69,7 @@ function bloom-build-world() {
     echo "Building the Bloom World!"
     bloomLogo
     git-fu
-    gradle_projects="lib_paymentSchedule lib_common"
+    gradle_projects="lib_paymentSchedule"
     for project in $gradle_projects; do
         echo "Installing library '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
