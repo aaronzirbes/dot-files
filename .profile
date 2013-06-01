@@ -2,10 +2,12 @@
 export GITHUB_USERNAME='aaronzirbes'
 export BLOOM_GIT_SANDBOX="$HOME/dev/grails/bloom"
 
+export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:$PATH"
 # Adding ruby gems to path
 export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PATH"
 
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bitbucket-sandbox.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-logo.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-plugins.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/ctags.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/grep-colors.sh
@@ -18,7 +20,6 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/logo.sh
 
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
@@ -39,25 +40,23 @@ function bloom-update-plugins() {
 
 alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
+alias g-mi="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
 
 function git-fa() {
-    branch=$1
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_common lib_domain bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        git fetch --all
-        git pull
+        git fetch --all && git pull
         popd > /dev/null
     done
 }
 
 function git-fu() {
-    branch=$1
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_common lib_domain bloomhealth"
+    bloomLogo
+    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        git fetch upstream
-        git pull
+        git fetch upstream && git pull
         popd > /dev/null
     done
 }
@@ -65,29 +64,36 @@ function git-fu() {
 function bloom-build-world() {
     echo "Building the Bloom World!"
     bloomLogo
-
-    branch=$1
-    gradle_projects="lib_common lib_paymentSchedule"
+    git-fu
+    gradle_projects="bloomhealth lib_paymentSchedule"
     for project in $gradle_projects; do
+        echo "Installing library '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        gradle clean install
+        gradle clean
+        gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true || \
+            gradle install
         popd > /dev/null
     done
 
     grails_plugins="lib_domain"
     for project in $grails_plugins; do
+        echo "Installing plugin '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        git fetch upstream
         grails package && grails maven-install
         popd > /dev/null
     done
 
-    grails_projects="webapp_bloomhealth/bloomhealth webapp_bhbo/bhbo bloomhealth/webapps/consumer/"
+    grails_projects="webapp_bloomhealth/bloomhealth webapp_bhbo/bhbo bloomhealth/webapps/consumer"
     for project in $grails_projects; do
+        echo "Building '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         grails clean && grails compile && grails package
         popd > /dev/null
     done
+}
+
+function g-findword() {
+    grep --include '*.groovy' -rE "\<${1}\>" .
 }
 
 alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
@@ -97,8 +103,6 @@ export simple_arrow='→'
 function scrap() {
     vim ~/.scrap.groovy
 }
-
-java6
 
 export simple_fail='!'
 export fancy_arrow='➦'
@@ -112,10 +116,12 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 
 export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} '
 
-export PATH="$HOME/bin:/usr/local/bin:$PATH"
+. $HOME/lib/git-completion.bash
+
+java6
 
 set -o vi
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "/Users/azirbes/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "/Users/azirbes/.gvm/bin/gvm-init.sh"
+[[ -s "$HOME/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "$HOME/.gvm/bin/gvm-init.sh"
 

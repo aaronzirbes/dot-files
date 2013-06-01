@@ -22,7 +22,9 @@
     caa = commit -a --amend
     cd = checkout develop
     co = checkout
+    df = diff --relative --name-only upstream/develop
     dtud = difftool upstream/develop..HEAD --
+    du = diff --relative upstream/develop
     fa = fetch --all
     ffp = flow feature publish
     ffs = flow feature start
