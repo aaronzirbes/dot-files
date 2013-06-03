@@ -19,6 +19,7 @@
 [push]
 	default = simple
 [alias]
+    br = branch
     caa = commit -a --amend
     cd = checkout develop
     co = checkout
