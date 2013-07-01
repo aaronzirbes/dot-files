@@ -16,7 +16,6 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/ls-colors.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/mysql.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/rabbitmq.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/truecrypt-config-switch.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
@@ -43,7 +42,7 @@ alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 alias g-mi="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
 
 function git-fa() {
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo lib_domain bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch --all && git pull
@@ -53,7 +52,7 @@ function git-fa() {
 
 function git-fu() {
     bloomLogo
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo lib_domain bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch upstream && git pull
@@ -65,7 +64,7 @@ function bloom-build-world() {
     echo "Building the Bloom World!"
     bloomLogo
     git-fu
-    gradle_projects="bloomhealth lib_paymentSchedule"
+    gradle_projects="bloomhealth"
     for project in $gradle_projects; do
         echo "Installing library '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
@@ -116,7 +115,7 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 
 export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} '
 
-. $HOME/lib/git-completion.bash
+#. $HOME/lib/git-completion.bash
 
 java6
 
