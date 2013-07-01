@@ -31,9 +31,10 @@
     ffs = flow feature start
     l = log --relative --graph -n 20
     ls = log --relative --graph --stat -n 20
-    pf = push -f
+    pf = "!if [ `git rev-parse --abbrev-ref --symbolic-full-name '@{u}' |sed -e 's#/.*##'` != 'upstream' ]; then git push -f; else echo 'DO NOT PUSH FORCE TO UPSTREAM'; fi"
     prud = pull --rebase upstream develop
     riud = rebase -i upstream/develop
     s = status
+
 [difftool]
 	prompt = false
