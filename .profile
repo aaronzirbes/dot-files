@@ -16,12 +16,12 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/ls-colors.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/mysql.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/rabbitmq.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/truecrypt-config-switch.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
 
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
+export GRADLE_OPTS='-Dorg.gradle.daemon=true'
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
 
 . ~/lib/git-prompt.sh
