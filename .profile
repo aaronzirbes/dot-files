@@ -22,7 +22,10 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
 export GRADLE_OPTS='-Dorg.gradle.daemon=true'
-export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+#export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+
+export GOPATH="$HOME/dev/go"
 
 . ~/lib/git-prompt.sh
 
@@ -43,7 +46,7 @@ alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 alias g-mi="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
 
 function git-fa() {
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch --all && git pull
@@ -53,12 +56,20 @@ function git-fa() {
 
 function git-fu() {
     bloomLogo
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule lib_domain bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch upstream && git pull
         popd > /dev/null
     done
+}
+
+function gradle-bi() {
+    if [ -f gradle.properties ]; then
+        gradle -p libs install && gradle -p services install && gradle -p plugins install
+    else
+        echo "not in the bloomhealth repo"
+    fi
 }
 
 function bloom-build-world() {
@@ -75,14 +86,6 @@ function bloom-build-world() {
         popd > /dev/null
     done
 
-    grails_plugins="lib_domain"
-    for project in $grails_plugins; do
-        echo "Installing plugin '${project}'..."
-        pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        grails package && grails maven-install
-        popd > /dev/null
-    done
-
     grails_projects="webapp_bloomhealth/bloomhealth webapp_bhbo/bhbo bloomhealth/webapps/consumer"
     for project in $grails_projects; do
         echo "Building '${project}'..."
@@ -93,7 +96,11 @@ function bloom-build-world() {
 }
 
 function g-findword() {
-    grep --include '*.groovy' -rE "\<${1}\>" .
+    grep --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
+}
+
+function j-findword() {
+    grep --include '*.js' --include '*.html' --include '*.css' -rE "\<${1}\>" .
 }
 
 alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
