@@ -66,7 +66,10 @@ function git-fu() {
 
 function gradle-bi() {
     if [ -f gradle.properties ]; then
-        gradle -p libs install && gradle -p services install && gradle -p plugins install
+        gradle -p libs install &&
+            gradle -p services install &&
+            gradle -p plugins/bloom-domain install &&
+            gradle -p plugins/random-port install
     else
         echo "not in the bloomhealth repo"
     fi
@@ -125,7 +128,8 @@ export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} 
 
 . $HOME/lib/git-completion.bash
 
-java6
+java7
+#java6
 
 set -o vi
 

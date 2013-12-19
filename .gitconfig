@@ -34,5 +34,6 @@
     prud = pull --rebase upstream develop
     riud = rebase -i upstream/develop
     s = status
+    bv = branch -vv
 [difftool]
 	prompt = false
