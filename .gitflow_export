@@ -1,0 +1,1 @@
+alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
