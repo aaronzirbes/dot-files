@@ -45,7 +45,7 @@ alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 alias g-mi="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
 
 function git-fa() {
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch --all && git pull
@@ -55,7 +55,7 @@ function git-fa() {
 
 function git-fu() {
     bloomLogo
-    projects="webapp_bloomhealth webapp_bhbo lib_paymentSchedule bloomhealth"
+    projects="webapp_bloomhealth webapp_bhbo bloomhealth"
     for project in $projects; do
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         git fetch upstream && git pull
@@ -78,7 +78,7 @@ function bloom-build-world() {
     echo "Building the Bloom World!"
     bloomLogo
     git-fu
-    gradle_projects="bloomhealth lib_paymentSchedule"
+    gradle_projects="bloomhealth"
     for project in $gradle_projects; do
         echo "Installing library '${project}'..."
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
@@ -98,7 +98,7 @@ function bloom-build-world() {
 }
 
 function g-findword() {
-    grep --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
+    grep --include '*.java' --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
 }
 
 function j-findword() {
@@ -128,10 +128,8 @@ export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} 
 . $HOME/lib/git-completion.bash
 
 java7
-#java6
 
 set -o vi
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "$HOME/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "$HOME/.gvm/bin/gvm-init.sh"
-
