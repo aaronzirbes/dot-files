@@ -19,9 +19,10 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/vagrant.sh
 
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
-export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+export JAVA_OPTS='-Xms2G -Xmx2G -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
 
 . ~/lib/git-prompt.sh
 
@@ -60,6 +61,18 @@ function git-fu() {
     done
 }
 
+function gradle-bi() {
+    if [ -f gradle.properties ]; then
+        projects="libs services plugins/bloom-domain plugins/random-port"
+        for project in ${projects}; do
+            echo ">>> Installing '${project}' <<<"
+            gradle -p ${project} install
+        done
+    else
+        echo "not in the bloomhealth repo"
+    fi
+}
+
 function bloom-build-world() {
     echo "Building the Bloom World!"
     bloomLogo
@@ -74,14 +87,6 @@ function bloom-build-world() {
         popd > /dev/null
     done
 
-    grails_plugins="lib_domain"
-    for project in $grails_plugins; do
-        echo "Installing plugin '${project}'..."
-        pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
-        grails package && grails maven-install
-        popd > /dev/null
-    done
-
     grails_projects="webapp_bloomhealth/bloomhealth webapp_bhbo/bhbo bloomhealth/webapps/consumer"
     for project in $grails_projects; do
         echo "Building '${project}'..."
@@ -92,7 +97,11 @@ function bloom-build-world() {
 }
 
 function g-findword() {
-    grep --include '*.groovy' -rE "\<${1}\>" .
+    grep --include '*.gsp' --include '*.gradle' --include '*.groovy' -rE "\<${1}\>" .
+}
+
+function g-vimword() {
+    vim `grep --include '*.gsp' --include '*.gradle' --include '*.groovy' -rlE "\<${1}\>" . |sort -u`
 }
 
 alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
@@ -114,11 +123,11 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 
-export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} '
+export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n ${beer} '
 
 #. $HOME/lib/git-completion.bash
 
-java6
+java7
 
 set -o vi
 

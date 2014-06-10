@@ -29,12 +29,13 @@
     fa = fetch --all
     ffp = flow feature publish
     ffs = flow feature start
-    l = log --relative --graph -n 20
-    ls = log --relative --graph --stat -n 20
+    l = log --relative --graph
+    ls = log --relative --graph --stat
     pf = "!if [ `git rev-parse --abbrev-ref --symbolic-full-name '@{u}' |sed -e 's#/.*##'` != 'upstream' ]; then git push -f; else echo 'DO NOT PUSH FORCE TO UPSTREAM'; fi"
     prud = pull --rebase upstream develop
     riud = rebase -i upstream/develop
     s = status
+    b = branch -vv
 
 [difftool]
 	prompt = false
