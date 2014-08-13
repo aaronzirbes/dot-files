@@ -19,10 +19,12 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
+. $BLOOM_GIT_SANDBOX/dev_scripts/bash/vagrant.sh
 
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
 export GRADLE_OPTS='-Dorg.gradle.daemon=true -Djava.awt.headless=true'
-export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+#export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
 
 export GOPATH="$HOME/dev/go"
 
@@ -67,8 +69,7 @@ function gradle-bi() {
     if [ -f gradle.properties ]; then
         gradle -p libs install &&
             gradle -p services install &&
-            gradle -p plugins/bloom-domain install &&
-            gradle -p plugins/random-port install
+            gradle -p plugins install
     else
         echo "not in the bloomhealth repo"
     fi
@@ -95,6 +96,35 @@ function bloom-build-world() {
         grails clean && grails compile && grails package
         popd > /dev/null
     done
+}
+
+function gs-run() {
+    if [ "$1" == "m" ]; then
+        service='member'
+    elif [ "$1" == "e" ]; then
+        service='employer-graph'
+    elif [ "$1" == "p" ]; then
+        service='product'
+    elif [ "$1" == "u" ]; then
+        service='user'
+    else
+        echo "you must pass a parameter, one of:"
+        echo " e: employer (graph)"
+        echo " p: product"
+        echo " m: member"
+        echo " u: user"
+        exit 1
+    fi
+
+    run=run
+    if [ "$2" == "v" ]; then
+        run=runVagrant
+    fi
+
+    pushd $BLOOM_GIT_SANDBOX/bloomhealth
+    echo "gradle -p services/${service}/${service}-service ${run}"
+    gradle -p services/${service}/${service}-service ${run}
+    popd
 }
 
 function g-findword() {
@@ -124,6 +154,9 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 
 export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} '
+
+# Docker port
+export DOCKER_HOST=tcp://127.0.0.1:4243
 
 . $HOME/lib/git-completion.bash
 

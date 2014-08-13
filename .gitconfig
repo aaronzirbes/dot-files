@@ -1,39 +1,42 @@
 [user]
-	name = Aaron J. Zirbes
-	email = aaron.zirbes@gmail.com
+    name = Aaron J. Zirbes
+    email = aaron.zirbes@gmail.com
 [core]
-	excludesfile = /Users/ajz/.gitignore_global
+    excludesfile = /Users/ajz/.gitignore_global
     editor = vim
 [merge]
-	tool = vimdiff
+    tool = vimdiff
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [color]
-	ui = true
+    ui = true
 [web]
-	browser = macosx
+    browser = macosx
 [browser "macosx"]
-	cmd = open
+    cmd = open
 [credential]
-	helper = osxkeychain
+    helper = osxkeychain
 [push]
-	default = simple
+    default = simple
 [alias]
     caa = commit -a --amend
     cd = checkout develop
     co = checkout
-    df = diff --relative --name-only upstream/develop
+    df = diff --relative -w --name-only upstream/develop
     dtud = difftool upstream/develop..HEAD --
-    du = diff --relative upstream/develop
+    du = diff --relative -w upstream/develop
     fa = fetch --all
     ffp = flow feature publish
     ffs = flow feature start
-    l = log --relative --graph -n 20
-    ls = log --relative --graph --stat -n 20
+    l = log --relative --graph -n 50
+    ls = log --relative --graph --stat -n 50
     pf = push -f
     prud = pull --rebase upstream develop
     riud = rebase -i upstream/develop
     s = status
-    bv = branch -vv
+    b = branch -vv
 [difftool]
-	prompt = false
+    prompt = false
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f

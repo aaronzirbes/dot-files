@@ -2,3 +2,4 @@
 *.swo
 .tags
 bloomhealth*.sql.gz
+RunLocalOnlyMemberEtl.groovy
