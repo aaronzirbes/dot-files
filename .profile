@@ -24,7 +24,8 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
 export GRADLE_OPTS='-Dorg.gradle.daemon=true -Djava.awt.headless=true'
 #export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
-export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+#export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
 
 export GOPATH="$HOME/dev/go"
 
@@ -67,9 +68,9 @@ function git-fu() {
 
 function gradle-bi() {
     if [ -f gradle.properties ]; then
-        gradle -p libs install &&
-            gradle -p services install &&
-            gradle -p plugins install
+        gradle -p libs pTML &&
+            gradle -p services pTML &&
+            gradle -p plugins pTML
     else
         echo "not in the bloomhealth repo"
     fi
@@ -85,7 +86,7 @@ function bloom-build-world() {
         pushd $BLOOM_GIT_SANDBOX/$project > /dev/null
         gradle clean
         gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true || \
-            gradle install
+            gradle pTML
         popd > /dev/null
     done
 
@@ -135,7 +136,7 @@ function j-findword() {
     grep --include '*.js' --include '*.html' --include '*.css' -rE "\<${1}\>" .
 }
 
-alias gr-install="gradle publishMavenJavaPublicationToMavenLocal -Psnapshot=true"
+alias gr-install="gradle pTML -Psnapshot=true"
 
 export simple_arrow='→'
 
