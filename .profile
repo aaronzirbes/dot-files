@@ -6,6 +6,7 @@ export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:$PATH"
 # Adding ruby gems to path
 export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PATH"
 
+
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bitbucket-sandbox.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-logo.sh
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bloom-plugins.sh
@@ -22,7 +23,7 @@ export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PAT
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/vagrant.sh
 
 export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
-export GRADLE_OPTS='-Dorg.gradle.daemon=true -Djava.awt.headless=true'
+#export GRADLE_OPTS='-Dorg.gradle.daemon=true -Djava.awt.headless=true'
 #export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
 #export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
@@ -157,7 +158,8 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} '
 
 # Docker port
-export DOCKER_HOST=tcp://127.0.0.1:4243
+#export DOCKER_HOST=tcp://127.0.0.1:4243
+export DOCKER_HOST=tcp://192.168.59.103:2375
 
 . $HOME/lib/git-completion.bash
 
