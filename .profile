@@ -159,11 +159,19 @@ export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} 
 
 # Docker port
 #export DOCKER_HOST=tcp://127.0.0.1:4243
-export DOCKER_HOST=tcp://192.168.59.103:2375
+export DOCKER_HOST=tcp://192.168.59.103:2376
+export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
+export DOCKER_TLS_VERIFY=1
 
 . $HOME/lib/git-completion.bash
 
 java7
+
+# Source AWS Creds
+. $HOME/dev/peoplenet/pnetaws.awscreds
+
+export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.5.3/libexec"
+export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.7.1.0/libexec"
 
 set -o vi
 
