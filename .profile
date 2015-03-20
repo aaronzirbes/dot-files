@@ -2,9 +2,16 @@
 export GITHUB_USERNAME='aaronzirbes'
 export BLOOM_GIT_SANDBOX="$HOME/dev/grails/bloom"
 
-export PATH="$HOME/bin:/usr/local/sbin:/usr/local/bin:$PATH"
+# Add homebrew to path
+export PATH="/usr/local/bin::$PATH"
+# Add my bin folder to path
+export PATH="$HOME/bin:/usr/local/sbin:$PATH"
 # Adding ruby gems to path
-export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:/usr/local/share/npm/bin:$PATH"
+export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:$PATH"
+# Adding NPM to path
+export PATH="/usr/local/share/npm/bin:$PATH"
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
 
 
 . $BLOOM_GIT_SANDBOX/dev_scripts/bash/bitbucket-sandbox.sh
@@ -26,6 +33,8 @@ export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+Us
 #export GRADLE_OPTS='-Dorg.gradle.daemon=true -Djava.awt.headless=true'
 #export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
 #export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
+#export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
+
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
 
 export GOPATH="$HOME/dev/go"
@@ -163,7 +172,11 @@ export DOCKER_HOST=tcp://192.168.59.103:2375
 
 . $HOME/lib/git-completion.bash
 
+. $HOME/dev/peoplenet/pnetaws.awscreds
+
 java7
+
+export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
 
 set -o vi
 
