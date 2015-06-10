@@ -21,24 +21,30 @@
 [alias]
     caa = commit -a --amend
     cd = checkout develop
+    cm = checkout master
     co = checkout
     df = diff --relative -w --name-only upstream/develop
     dtud = difftool upstream/develop..HEAD --
-    du = diff --relative -w upstream/develop
-    dus = diff --relative -w upstream/develop --stat
+    du = diff --relative -w upstream/master
+    dud = diff --relative -w upstream/develop
+    dus = diff --relative -w upstream/master --stat
+    dums = diff --relative -w upstream/develop --stat
     fa = fetch --all
     ffp = flow feature publish
     ffs = flow feature start
-    l = log --relative --graph -n 50
-    ls = log --relative --graph --stat -n 50
+    l = log --relative --graph -n 100
+    ls = log --relative --graph --stat -n 100
     pf = push -f
-    rt = git rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
+    pu = push -u origin HEAD
+    rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     prud = pull --rebase upstream develop
+    prum = pull --rebase upstream master
     riud = rebase -i upstream/develop
+    rium = rebase -i upstream/master
     s = status
     b = branch -vv
 [difftool]
     prompt = false
 [filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
+    clean = git-media-clean %f
+    smudge = git-media-smudge %f
