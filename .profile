@@ -22,21 +22,12 @@ export GREP_OPTIONS='--color=auto'
 
 # LS Colors
 export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
 
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/groovy-grails.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/ls-colors.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/mysql.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/rabbitmq.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
+. $HOME/lib/dot-files/groovy-grails.sh
+. $HOME/lib/dot-files/vim_dev.sh
+. $HOME/lib/dot-files/server-alias.sh
 
-export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
-#export GRADLE_OPTS='-Dorg.gradle.daemon=true -Djava.awt.headless=true'
-#export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
-#export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
-#export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
-
-#export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
 
 export GOPATH="$HOME/dev/go"
