@@ -13,29 +13,24 @@ export PATH="/usr/local/share/npm/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
-
+# ctags
 export CTAGS='-f ./.tags' 
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/grep-colors.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/groovy-grails.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/ls-colors.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/mysql.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/rabbitmq.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/markdown.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/vim_dev.sh
-. $BLOOM_GIT_SANDBOX/dev_scripts/bash/prompt.sh
+ 
+# grep colors
+export GREP_COLOR='1;31'
+export GREP_OPTIONS='--color=auto'
 
-export GRAILS_OPTS="-Xms2g -Xmx2g -XX:PermSize=128m -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
-#export GRADLE_OPTS='-Dorg.gradle.daemon=true -Djava.awt.headless=true'
-#export JAVA_OPTS='-Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
-#export JAVA_OPTS='-Djava.awt.headless=true -Xms1G -Xmx1G -XX:MaxPermSize=512m -XX:+UseConcMarkSweepGC'
-#export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
+# LS Colors
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
 
-#export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:MaxPermSize=768m -XX:+UseConcMarkSweepGC'
+. $HOME/lib/dot-files/groovy-grails.sh
+. $HOME/lib/dot-files/vim_dev.sh
+. $HOME/lib/dot-files/server-alias.sh
+
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
 
 export GOPATH="$HOME/dev/go"
-
-. ~/lib/git-prompt.sh
 
 alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
@@ -66,19 +61,42 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 
-export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} '
+if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+    #GIT_PROMPT_THEME=Default
+    GIT_PROMPT_THEME=Solarized
+    # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
+    GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${beer} '
+
+   # as last entry source the gitprompt script
+   # GIT_PROMPT_THEME=Custom # use custom .git-prompt-colors.sh
+   # GIT_PROMPT_THEME=Solarized # use theme optimized for solarized color scheme
+
+    source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+fi
+
+source "$(brew --prefix bash-completion)/etc/bash_completion"
+
 
 # Docker port
+#export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
 export DOCKER_HOST=tcp://192.168.59.103:2376
 export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
 export DOCKER_TLS_VERIFY=1
 
 
-. $HOME/lib/git-completion.bash
+#. $HOME/lib/git-completion.bash
 
-. $HOME/dev/peoplenet/pnetaws.awscreds
+if [ -r $HOME/dev/peoplenet/pnetaws.awscreds ]; then
+    . $HOME/dev/peoplenet/pnetaws.awscreds
+fi
 
-export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
+if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
+    export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
+fi
+
+# Source AWS Creds
+export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.5.3/libexec"
+export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.7.1.0/libexec"
 
 set -o vi
 
