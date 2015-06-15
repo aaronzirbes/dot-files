@@ -70,8 +70,9 @@ export PS1='\e[1;32m\w\e[1;37m$(__git_ps1 " [%s]")\e[1;34m `date`\e[0m\n${beer} 
 
 # Docker port
 export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=/Users/ajz/.docker/boot2docker-vm
+export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
 export DOCKER_TLS_VERIFY=1
+
 
 . $HOME/lib/git-completion.bash
 
