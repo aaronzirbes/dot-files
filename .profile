@@ -85,8 +85,6 @@ export DOCKER_HOST=tcp://192.168.59.103:2376
 export DOCKER_CERT_PATH=/Users/ajz/.docker/boot2docker-vm
 export DOCKER_TLS_VERIFY=1
 
-# MacBook 15" OPI
-export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
 
 alias pyserve='python -m SimpleHTTPServer'
 
@@ -97,9 +95,6 @@ fi
 if [ -r $HOME/dev/zirbes.awscreds ]; then
     . $HOME/dev/zirbes.awscreds
 fi
-
-PermSize=128m;
-MaxPermSize=512m;
 
 if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
     export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
