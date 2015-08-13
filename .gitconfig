@@ -19,6 +19,8 @@
 [push]
     default = simple
 [alias]
+    bsum = branch --set-upstream-to=upstream/master
+    b = branch -vv
     caa = commit -a --amend
     cd = checkout develop
     cm = checkout master
@@ -27,22 +29,21 @@
     dtud = difftool upstream/develop..HEAD --
     du = diff --relative -w upstream/master
     dud = diff --relative -w upstream/develop
-    dus = diff --relative -w upstream/master --stat
     dums = diff --relative -w upstream/develop --stat
+    dus = diff --relative -w upstream/master --stat
     fa = fetch --all
     ffp = flow feature publish
     ffs = flow feature start
     l = log --relative --graph -n 100
     ls = log --relative --graph --stat -n 100
     pf = push -f
-    pu = push -u origin HEAD
-    rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     prud = pull --rebase upstream develop
     prum = pull --rebase upstream master
+    pu = push -u origin HEAD
     riud = rebase -i upstream/develop
     rium = rebase -i upstream/master
+    rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     s = status
-    b = branch -vv
 [difftool]
     prompt = false
 [filter "media"]
