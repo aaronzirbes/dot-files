@@ -7,7 +7,7 @@
 [merge]
     tool = vimdiff
 [diff]
-    tool = vimdiff
+	tool = vimdiff
 [color]
     ui = true
 [web]
@@ -45,7 +45,7 @@
     rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     s = status
 [difftool]
-    prompt = false
+	prompt = false
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f

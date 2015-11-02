@@ -46,63 +46,81 @@ function j-findword() {
     grep --include '*.js' --include '*.html' --include '*.css' -rE "\<${1}\>" .
 }
 
-alias gr-install="gradle pTML -Psnapshot=true"
 
-export simple_arrow='→'
+function configurePrompt() {
+    export simple_arrow='→'
+    export simple_fail='!'
+    export fancy_arrow='➦'
+    export fancy_fail='✘'
+    export beer='🍺 '
 
-function scrap() {
-    vim ~/.scrap.groovy
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWSTASHSTATE=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+
+    if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
+        #GIT_PROMPT_THEME=Default
+        GIT_PROMPT_THEME=Solarized
+        # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
+        GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${beer} '
+
+       # as last entry source the gitprompt script
+       # GIT_PROMPT_THEME=Custom # use custom .git-prompt-colors.sh
+       # GIT_PROMPT_THEME=Solarized # use theme optimized for solarized color scheme
+
+        source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
+    fi
+
+    source "$(brew --prefix bash-completion)/etc/bash_completion"
 }
+configurePrompt
 
-export simple_fail='!'
-export fancy_arrow='➦'
-export fancy_fail='✘'
-export beer='🍺 '
-
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWUNTRACKEDFILES=1
-
-if [ -f "$(brew --prefix bash-git-prompt)/share/gitprompt.sh" ]; then
-    #GIT_PROMPT_THEME=Default
-    GIT_PROMPT_THEME=Solarized
-    # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
-    GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${beer} '
-
-   # as last entry source the gitprompt script
-   # GIT_PROMPT_THEME=Custom # use custom .git-prompt-colors.sh
-   # GIT_PROMPT_THEME=Solarized # use theme optimized for solarized color scheme
-
-    source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
-fi
-
-source "$(brew --prefix bash-completion)/etc/bash_completion"
-
-
-# Docker port
-#export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
-export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=/Users/ajz/.docker/boot2docker-vm
-export DOCKER_TLS_VERIFY=1
-
+function configureDocker() {
+    export DOCKER_TLS_VERIFY=1
+    export DOCKER_HOST=tcp://192.168.59.103:2376
+    export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
+}
+configureDocker
 
 alias pyserve='python -m SimpleHTTPServer'
 
-if [ -r $HOME/dev/peoplenet/pnetaws.awscreds ]; then
-    . $HOME/dev/peoplenet/pnetaws.awscreds
-fi
+function usePeopleNetAwsCreds() {
+    if [ -r $HOME/dev/peoplenet/pnetaws.awscreds ]; then
+        . $HOME/dev/peoplenet/pnetaws.awscreds
+    fi
+}
 
-if [ -r $HOME/dev/zirbes.awscreds ]; then
-    . $HOME/dev/zirbes.awscreds
-fi
+function useZirbesAwsCreds() {
+    if [ -r $HOME/dev/zirbes.awscreds ]; then
+        . $HOME/dev/zirbes.awscreds
+    fi
+}
+
+function configureAwsCreds() {
+    # Source AWS Creds
+    if (ifconfig jnc0 > /dev/null 2> /dev/null ); then
+        usePeopleNetAwsCreds
+    else
+        en0_ip=`ifconfig en0 inet |grep inet |cut -f 2 -d ' '`
+        en0_gw=`ifconfig en0 inet |grep inet |cut -f 6 -d ' '`
+        if [[ "${en0_ip}" =~ "10.10." ]] && [ "${en0_gw}" == "10.10.47.255" ]; then
+            # We are at PeopleNet (prolly)
+            usePeopleNetAwsCreds
+
+        else
+            useZirbesAwsCreds
+        fi
+
+    fi
+    export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.5.3/libexec"
+    export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.7.1.0/libexec"
+}
+
+configureAwsCreds
 
 if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
     export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
 fi
-
-# Source AWS Creds
-export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.5.3/libexec"
-export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.7.1.0/libexec"
 
 export ANDROID_SDK_HOME="/Users/ajz/dev/android/sdk/24.3.3/android-sdk-macosx"
 
@@ -112,5 +130,9 @@ set -o vi
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 #jenv global 1.8
 
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "$HOME/.gvm/bin/gvm-init.sh" && ! $(which gvm-init.sh) ]] && source "$HOME/.gvm/bin/gvm-init.sh"
+# Installed SDK Man via:
+#     curl -s get.sdkman.io | bash
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/ajz/.sdkman"
+[[ -s "/Users/ajz/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ajz/.sdkman/bin/sdkman-init.sh"

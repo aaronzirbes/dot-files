@@ -1,5 +1,11 @@
 *.swp
 *.swo
 .tags
+.gradle/
 bloomhealth*.sql.gz
 RunLocalOnlyMemberEtl.groovy
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
