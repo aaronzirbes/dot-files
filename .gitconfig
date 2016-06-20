@@ -7,7 +7,7 @@
 [merge]
     tool = vimdiff
 [diff]
-	tool = vimdiff
+    tool = mvimdiff
 [color]
     ui = true
 [web]
@@ -41,7 +41,7 @@
     prum = pull --rebase upstream master
     pu = push -u origin HEAD
     riud = rebase -i upstream/develop
-    rium = rebase -i upstream/master
+    rium = !git rebase -i `git merge-base upstream/master HEAD` && git rebase upstream/master
     rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     s = status
 [difftool]

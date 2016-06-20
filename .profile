@@ -1,6 +1,5 @@
 # Git Vars
 export GITHUB_USERNAME='aaronzirbes'
-export BLOOM_GIT_SANDBOX="$HOME/dev/grails/bloom"
 
 # Add homebrew to path
 export PATH="/usr/local/bin::$PATH"
@@ -24,7 +23,7 @@ export GREP_OPTIONS='--color=auto'
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
-. $HOME/lib/dot-files/groovy-grails.sh
+# . $HOME/lib/dot-files/groovy-grails.sh
 . $HOME/lib/dot-files/vim_dev.sh
 . $HOME/lib/dot-files/server-aliases.sh
 
@@ -75,12 +74,17 @@ function configurePrompt() {
 }
 configurePrompt
 
-function configureDocker() {
+function configureDockerOld() {
     export DOCKER_TLS_VERIFY=1
     export DOCKER_HOST=tcp://192.168.59.103:2376
     export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
 }
-configureDocker
+
+function configureDocker() {
+    eval "$(/usr/local/bin/docker-machine env dev)"
+}
+
+# configureDocker
 
 alias pyserve='python -m SimpleHTTPServer'
 
@@ -116,7 +120,8 @@ function configureAwsCreds() {
     export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.7.1.0/libexec"
 }
 
-configureAwsCreds
+usePeopleNetAwsCreds
+# configureAwsCreds
 
 if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
     export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
@@ -133,6 +138,15 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 # Installed SDK Man via:
 #     curl -s get.sdkman.io | bash
 
+
+# Sourcing chruby
+. /usr/local/share/chruby/chruby.sh
+
+# Using ruby 2.2.3
+chruby ruby-2.2.3
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/ajz/.sdkman"
 [[ -s "/Users/ajz/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ajz/.sdkman/bin/sdkman-init.sh"
+
+[[ -s "/Users/ajz/.gvm/scripts/gvm" ]] && source "/Users/ajz/.gvm/scripts/gvm"
