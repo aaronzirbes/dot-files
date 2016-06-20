@@ -23,9 +23,7 @@ export GREP_OPTIONS='--color=auto'
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
-# . $HOME/lib/dot-files/groovy-grails.sh
 . $HOME/lib/dot-files/vim_dev.sh
-. $HOME/lib/dot-files/server-aliases.sh
 
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
 
