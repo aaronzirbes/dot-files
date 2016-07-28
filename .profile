@@ -34,6 +34,7 @@ export PATH="$GOPATH/bin:$PATH"
 alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 alias gh='hub browse'
+alias nv='nvim'
 
 function g-findword() {
     grep --include '*.java' --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
