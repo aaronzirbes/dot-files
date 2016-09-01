@@ -5,7 +5,8 @@
 #export GRAILS_OPTS="-Xms2048m -Xmx2048m -XX:PermSize=128m -XX:MaxPermSize=1024m -server"
 #export GRAILS_OPTS="-Xms2g -Xmx2g -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
 # new settings based on John E's suggestion
-export GRAILS_OPTS="-Xms1g -Xmx1g  -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
+
+#export GRAILS_OPTS="-Xms1g -Xmx1g  -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -server"
 
 # Grails - Interactive Mode
 function g-ia() {
