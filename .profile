@@ -34,6 +34,8 @@ export PATH="$GOPATH/bin:$PATH"
 alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 alias gh='hub browse'
+alias nv=nvim
+alias gremlin='~/dse/bin/dse gremlin-console'
 
 function g-findword() {
     grep --include '*.java' --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
@@ -87,12 +89,14 @@ function configureDocker() {
 alias pyserve='python -m SimpleHTTPServer'
 
 function usePeopleNetAwsCreds() {
+    echo "Using PeopleNet AWS Creds"
     if [ -r $HOME/dev/peoplenet/pnetaws.awscreds ]; then
         . $HOME/dev/peoplenet/pnetaws.awscreds
     fi
 }
 
 function useZirbesAwsCreds() {
+    echo "Using aaronzirbes AWS Creds"
     if [ -r $HOME/dev/zirbes.awscreds ]; then
         . $HOME/dev/zirbes.awscreds
     fi
@@ -118,8 +122,8 @@ function configureAwsCreds() {
     export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.7.1.0/libexec"
 }
 
-usePeopleNetAwsCreds
-# configureAwsCreds
+#usePeopleNetAwsCreds
+configureAwsCreds
 
 if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
     export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
@@ -146,5 +150,3 @@ chruby ruby-2.2.3
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/ajz/.sdkman"
 [[ -s "/Users/ajz/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ajz/.sdkman/bin/sdkman-init.sh"
-
-[[ -s "/Users/ajz/.gvm/scripts/gvm" ]] && source "/Users/ajz/.gvm/scripts/gvm"
