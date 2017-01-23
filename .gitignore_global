@@ -4,6 +4,7 @@
 .gradle/
 bloomhealth*.sql.gz
 RunLocalOnlyMemberEtl.groovy
+node_modules/
 .idea/
 *.iml
 *.ipr

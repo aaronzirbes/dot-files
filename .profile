@@ -13,7 +13,7 @@ export PATH="/usr/local/share/npm/bin:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 
 # ctags
-export CTAGS='-f ./.tags' 
+export CTAGS='-f ./.tags --exclude=.git --exclude=node_modules --exclude=build'
  
 # grep colors
 export GREP_COLOR='1;31'
@@ -36,6 +36,8 @@ alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 alias gh='hub browse'
 alias nv=nvim
 alias gremlin='~/dse/bin/dse gremlin-console'
+alias ubuntu='docker run -i -t ubuntu:14.04 bash'
+
 
 function g-findword() {
     grep --include '*.java' --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
@@ -52,6 +54,7 @@ function configurePrompt() {
     export fancy_arrow='➦'
     export fancy_fail='✘'
     export beer='🍺 '
+    export move_right='\e[1C'
 
     export GIT_PS1_SHOWDIRTYSTATE=1
     export GIT_PS1_SHOWSTASHSTATE=1
@@ -61,7 +64,12 @@ function configurePrompt() {
         #GIT_PROMPT_THEME=Default
         GIT_PROMPT_THEME=Solarized
         # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
-        GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${beer} '
+        if [ "$VIMRUNTIME" != "" ]; then
+            # Neo vim has an odd alignment issue in the terminal emulator for the beer character
+            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n\e[1;32mVim $\e[0m'
+        else
+            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${beer} '
+        fi
 
        # as last entry source the gitprompt script
        # GIT_PROMPT_THEME=Custom # use custom .git-prompt-colors.sh
@@ -70,6 +78,7 @@ function configurePrompt() {
         source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
     fi
 
+    # [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
     source "$(brew --prefix bash-completion)/etc/bash_completion"
 }
 configurePrompt
@@ -149,4 +158,5 @@ chruby ruby-2.2.3
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/ajz/.sdkman"
-[[ -s "/Users/ajz/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ajz/.sdkman/bin/sdkman-init.sh"
+[ -s "/Users/ajz/.sdkman/bin/sdkman-init.sh" ] && source "/Users/ajz/.sdkman/bin/sdkman-init.sh"
+[ -e "${HOME}/.iterm2_shell_integration.bash" ] && . "${HOME}/.iterm2_shell_integration.bash"
