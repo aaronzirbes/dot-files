@@ -1,6 +1,7 @@
 1password
 android-file-transfer
 atom
+dash
 devcenter
 dropbox
 firefox
