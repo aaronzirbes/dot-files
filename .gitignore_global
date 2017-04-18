@@ -10,3 +10,5 @@ node_modules/
 *.ipr
 *.iws
 .DS_Store
+yarn.lock
+.yarnclean

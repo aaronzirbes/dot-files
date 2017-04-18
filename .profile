@@ -9,6 +9,8 @@ export PATH="$HOME/bin:/usr/local/sbin:$PATH"
 export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:$PATH"
 # Adding NPM to path
 export PATH="/usr/local/share/npm/bin:$PATH"
+# Adding Yarn to path
+export PATH="$PATH:`yarn global bin`"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
@@ -37,6 +39,7 @@ alias gh='hub browse'
 alias nv=nvim
 alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
+alias uuid='groovy -e "println UUID.randomUUID()"'
 
 
 function g-findword() {
@@ -66,7 +69,7 @@ function configurePrompt() {
         # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
         if [ "$VIMRUNTIME" != "" ]; then
             # Neo vim has an odd alignment issue in the terminal emulator for the beer character
-            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n\e[1;32mVim $\e[0m'
+            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n\e[1;32mVim $\e[0m '
         else
             GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${beer} '
         fi
