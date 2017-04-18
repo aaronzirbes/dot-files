@@ -9,13 +9,16 @@ gimp
 google-chrome
 google-hangouts
 inkscape
+insomnia
 iterm2
 keybase
 monodraw
+slack
 sqlworkbenchj
 trailer
 vagrant
 virtualbox
+visual-studio-code
 visualvm
 xamarin-android
 xquartz
