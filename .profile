@@ -14,6 +14,12 @@ export PATH="$PATH:`yarn global bin`"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
+# export PORTAL_E2E_USER="connectedfleetautomation-ug+admin@peoplenetonline.com"
+# export PORTAL_E2E_PASS="Password1"
+
+export PORTAL_E2E_USER="azirbes@peoplenetonline.com"
+export PORTAL_E2E_PASS="Z?VJTLM9o[7fTev3thd"
+
 # ctags
 export CTAGS='-f ./.tags --exclude=.git --exclude=node_modules --exclude=build'
  
@@ -25,7 +31,7 @@ export GREP_OPTIONS='--color=auto'
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
-. $HOME/lib/dot-files/vim_dev.sh
+. $HOME/.files/vim_dev.sh
 
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
 

@@ -46,19 +46,11 @@ function vim_modified() {
     _editor_modified vim
 }
 
-function nvim_modified() {
-    _editor_modified nvim
-}
-
 function vim_failed() {
     _editor_failed vim
 }
 
 function mvim_failed() {
     _editor_failed mvim
-}
-
-function nvim_failed() {
-    _editor_failed nvim
 }
 
