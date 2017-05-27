@@ -34,6 +34,8 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 . $HOME/.files/vim_dev.sh
 
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
+export JAVA_HOME="${HOME}/.sdkman/candidates/java/current"
+export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/'
 
 export GOPATH="$HOME/dev/go"
 # Add Golang to path
@@ -46,7 +48,8 @@ alias nv=nvim
 alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid='groovy -e "println UUID.randomUUID()"'
-
+alias kc=kubectl
+alias updatepass='gopass git --store wms pull'
 
 function g-findword() {
     grep --include '*.java' --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
@@ -89,13 +92,15 @@ function configurePrompt() {
 
     # [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
     source "$(brew --prefix bash-completion)/etc/bash_completion"
+
+    __git_complete kc kubectl
 }
 configurePrompt
 
 function configureDockerOld() {
     export DOCKER_TLS_VERIFY=1
     export DOCKER_HOST=tcp://192.168.59.103:2376
-    export DOCKER_CERT_PATH=/Users/ajz/.boot2docker/certs/boot2docker-vm
+    export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm
 }
 
 function configureDocker() {
@@ -103,15 +108,9 @@ function configureDocker() {
 }
 
 # configureDocker
+export DOCKER_IP=127.0.0.1
 
 alias pyserve='python -m SimpleHTTPServer'
-
-function usePeopleNetAwsCreds() {
-    echo "Using PeopleNet AWS Creds"
-    if [ -r $HOME/dev/peoplenet/pnetaws.awscreds ]; then
-        . $HOME/dev/peoplenet/pnetaws.awscreds
-    fi
-}
 
 function useZirbesAwsCreds() {
     echo "Using aaronzirbes AWS Creds"
@@ -122,32 +121,18 @@ function useZirbesAwsCreds() {
 
 function configureAwsCreds() {
     # Source AWS Creds
-    if (ifconfig jnc0 > /dev/null 2> /dev/null ); then
-        usePeopleNetAwsCreds
-    else
-        en0_ip=`ifconfig en0 inet |grep inet |cut -f 2 -d ' '`
-        en0_gw=`ifconfig en0 inet |grep inet |cut -f 6 -d ' '`
-        if [[ "${en0_ip}" =~ "10.10." ]] && [ "${en0_gw}" == "10.10.47.255" ]; then
-            # We are at PeopleNet (prolly)
-            usePeopleNetAwsCreds
-
-        else
-            useZirbesAwsCreds
-        fi
-
-    fi
+    useZirbesAwsCreds
     export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.5.3/libexec"
     export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.7.1.0/libexec"
 }
 
-#usePeopleNetAwsCreds
 configureAwsCreds
 
 if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
     export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
 fi
 
-export ANDROID_SDK_HOME="/Users/ajz/dev/android/sdk/24.3.3/android-sdk-macosx"
+export ANDROID_SDK_HOME="${HOME}/dev/android/sdk/24.3.3/android-sdk-macosx"
 
 set -o vi
 
@@ -158,14 +143,20 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 # Installed SDK Man via:
 #     curl -s get.sdkman.io | bash
 
-
 # Sourcing chruby
-. /usr/local/share/chruby/chruby.sh
-
+#. /usr/local/share/chruby/chruby.sh
 # Using ruby 2.2.3
-chruby ruby-2.2.3
+#chruby ruby-2.2.3
+
+export ANDROID_HOME=/usr/local/share/android-sdk
+# Source drone configuration
+. ~/ole/.drone_config
+
+eval "$(ssh-agent -s)"
+export EDITOR=nvim
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/ajz/.sdkman"
-[ -s "/Users/ajz/.sdkman/bin/sdkman-init.sh" ] && source "/Users/ajz/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="${HOME}/.sdkman"
+[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 [ -e "${HOME}/.iterm2_shell_integration.bash" ] && . "${HOME}/.iterm2_shell_integration.bash"
+
