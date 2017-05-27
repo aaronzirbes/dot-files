@@ -48,6 +48,7 @@ alias nv=nvim
 alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid='groovy -e "println UUID.randomUUID()"'
+alias check='gradle cM cT cIT test'
 alias kc=kubectl
 alias updatepass='gopass git --store wms pull'
 
@@ -159,4 +160,5 @@ export EDITOR=nvim
 export SDKMAN_DIR="${HOME}/.sdkman"
 [ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 [ -e "${HOME}/.iterm2_shell_integration.bash" ] && . "${HOME}/.iterm2_shell_integration.bash"
+[ -s "${HOME}/ole/secrets/scripts/k8s/k8sLoadAndSetContext.sh" ] && . "${HOME}/ole/secrets/scripts/k8s/k8sLoadAndSetContext.sh"
 

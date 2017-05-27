@@ -2,7 +2,7 @@
     name = Aaron J. Zirbes
     email = aaron.zirbes@gmail.com
 [core]
-    excludesfile = /Users/ajz/.gitignore_global
+    excludesfile = /Users/a591926/.gitignore_global
     editor = vim
 [merge]
     tool = vimdiff
@@ -45,7 +45,9 @@
     rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     s = status
 [difftool]
-	prompt = false
+    prompt = false
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
+[hub]
+	host = git.target.com
