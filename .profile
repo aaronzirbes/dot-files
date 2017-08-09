@@ -48,9 +48,16 @@ alias nv=nvim
 alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid='groovy -e "println UUID.randomUUID()"'
-alias check='gradle cM cT cIT test'
 alias kc=kubectl
 alias updatepass='gopass git --store wms pull'
+
+alias pods='kubectl get pods | egrep "[hd]$|$"'
+alias ktall="kubetail '.*' -e regex"
+
+alias check='gradle cM cT test'
+alias gc='gradle --continuous'
+alias gt='gradle --continuous test'
+alias narc='gradle --continuous cM cT'
 
 function g-findword() {
     grep --include '*.java' --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
@@ -153,12 +160,12 @@ export ANDROID_HOME=/usr/local/share/android-sdk
 # Source drone configuration
 . ~/ole/.drone_config
 
-eval "$(ssh-agent -s)"
+. ~/bin/kubeforward.sh
+
+#eval "$(ssh-agent -s)"
 export EDITOR=nvim
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="${HOME}/.sdkman"
 [ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 [ -e "${HOME}/.iterm2_shell_integration.bash" ] && . "${HOME}/.iterm2_shell_integration.bash"
-[ -s "${HOME}/ole/secrets/scripts/k8s/k8sLoadAndSetContext.sh" ] && . "${HOME}/ole/secrets/scripts/k8s/k8sLoadAndSetContext.sh"
-

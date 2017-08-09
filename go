@@ -30,6 +30,7 @@ function linkall() {
     for file in .gitconfig \
                 .gitflow_export \
                 .gitignore_global \
+                .iterm2_shell_integration.bash \
                 .profile; do
         linkit ${file} ${file}
     done
