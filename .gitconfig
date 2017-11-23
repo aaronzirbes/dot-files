@@ -49,3 +49,6 @@
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
+[hub]
+	host = git.target.com
+	host = gist.git.target.com
