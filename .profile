@@ -35,7 +35,7 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
 export JAVA_HOME="${HOME}/.sdkman/candidates/java/current"
-export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/'
+export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/'
 
 export GOPATH="$HOME/dev/go"
 # Add Golang to path
@@ -150,7 +150,7 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 
 export ANDROID_HOME=/usr/local/share/android-sdk
 # Source drone configuration
-. ~/ole/.drone_config
+[ -s "${HOME}/ole/.drone_config" ] && source ~/ole/.drone_config
 
 eval "$(ssh-agent -s)"
 export EDITOR=nvim

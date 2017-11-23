@@ -1,10 +1,10 @@
 1password
-android-file-transfer
-atom
+android-sdk
+better-window-manager
 dash
 devcenter
+docker
 dropbox
-firefox
 flux
 gimp
 google-chrome
@@ -15,11 +15,6 @@ iterm2
 keybase
 monodraw
 slack
-sqlworkbenchj
 trailer
-vagrant
-virtualbox
-visual-studio-code
 visualvm
 xamarin-android
-xquartz
