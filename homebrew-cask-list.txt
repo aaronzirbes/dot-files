@@ -10,6 +10,7 @@ google-hangouts
 hipchat
 insomnia
 iterm2
+karabiner-elements
 monodraw
 slack
 trailer
