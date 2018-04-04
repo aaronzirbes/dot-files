@@ -1,6 +1,6 @@
-1password
 android-sdk
 better-window-manager
+caffeine
 dash
 docker
 dropbox
@@ -9,9 +9,16 @@ google-chrome
 google-hangouts
 hipchat
 insomnia
+intellij-idea
 iterm2
 karabiner-elements
+keybase
+minikube
 monodraw
+skype-for-business
 slack
+spotify
 trailer
+virtualbox
 visualvm
+wireshark

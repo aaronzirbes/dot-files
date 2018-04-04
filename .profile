@@ -7,7 +7,7 @@ export PATH="/usr/local/bin::$PATH"
 export PATH="$HOME/bin:/usr/local/sbin:$PATH"
 # Adding ruby gems to path
 export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:$PATH"
-# Adding NPM to path
+#o Adding NPM to path
 export PATH="/usr/local/share/npm/bin:$PATH"
 # Adding Yarn to path
 export PATH="$PATH:`yarn global bin`"
@@ -34,8 +34,9 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 . $HOME/.files/vim_dev.sh
 
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
-export JAVA_HOME="${HOME}/.sdkman/candidates/java/current"
+# export JAVA_HOME="${HOME}/.sdkman/candidates/java/current"
 export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/'
+launchctl setenv JAVA_HOME "${JAVA_HOME}"
 
 export GOPATH="$HOME/dev/go"
 # Add Golang to path
@@ -50,6 +51,11 @@ alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid='groovy -e "println UUID.randomUUID()"'
 alias kc=kubectl
 alias updatepass='gopass git --store wms pull'
+alias vimrc='nv ~/.vim/vimrc'
+alias pods='kubectl get pods'
+alias dcd='docker-compose down'
+alias dcu='docker-compose up -d'
+alias grc='gradle --continuous'
 
 function g-findword() {
     grep --include '*.java' --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
@@ -103,12 +109,17 @@ function configureDockerOld() {
     export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm
 }
 
+
 function configureDocker() {
     eval "$(/usr/local/bin/docker-machine env dev)"
 }
 
 # configureDocker
 export DOCKER_IP=127.0.0.1
+
+if [ -d "/usr/local/opt/python/libexec/bin" ]; then
+    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+fi
 
 alias pyserve='python -m SimpleHTTPServer'
 
@@ -132,9 +143,19 @@ if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
     export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
 fi
 
+if [ -d /usr/local/opt/postgresql@9.6/bin ]; then
+    export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+fi
+
+if [ -f ${HOME}/bin/kubeforward.sh ]; then
+    . ${HOME}/bin/kubeforward.sh 
+fi
+
 export ANDROID_SDK_HOME="${HOME}/dev/android/sdk/24.3.3/android-sdk-macosx"
 
 set -o vi
+
+[ -s "${HOME}/Dropbox/tgt/sdkman-init.sh" ] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 
 # Java Environment manager
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
@@ -147,6 +168,8 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 #. /usr/local/share/chruby/chruby.sh
 # Using ruby 2.2.3
 #chruby ruby-2.2.3
+
+export LDAP_BIND_PASSWORD="$(gopass wms/nuid/svolewms)"
 
 export ANDROID_HOME=/usr/local/share/android-sdk
 # Source drone configuration
