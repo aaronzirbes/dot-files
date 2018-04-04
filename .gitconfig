@@ -7,7 +7,7 @@
 [merge]
     tool = vimdiff
 [diff]
-    tool = mvimdiff
+    tool = vimdiff
 [color]
     ui = true
 [web]
@@ -25,30 +25,27 @@
     cd = checkout develop
     cm = checkout master
     co = checkout
-    df = diff --relative -w --name-only upstream/develop
+    df = diff --relative -w --name-only upstream/master
     dtud = difftool upstream/develop..HEAD --
     du = diff --relative -w upstream/master
-    dud = diff --relative -w upstream/develop
-    dums = diff --relative -w upstream/develop --stat
     dus = diff --relative -w upstream/master --stat
     fa = fetch --all
     ffp = flow feature publish
     ffs = flow feature start
     l = log --relative --graph -n 100
     ls = log --relative --graph --stat -n 100
-    pf = push -f
-    prud = pull --rebase upstream develop
+    pf = "!if [ `git rev-parse --abbrev-ref --symbolic-full-name '@{u}' |sed -e 's#/.*##'` != 'upstream' ]; then git push -f; else echo 'DO NOT PUSH FORCE TO UPSTREAM'; fi"
     prum = pull --rebase upstream master
     pu = push -u origin HEAD
-    riud = rebase -i upstream/develop
     rium = !git rebase -i `git merge-base upstream/master HEAD` && git rebase upstream/master
     rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     s = status
+
 [difftool]
-	prompt = false
+    prompt = false
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
 [hub]
-	host = git.target.com
-	host = gist.git.target.com
+    host = git.target.com
+    host = gist.git.target.com
