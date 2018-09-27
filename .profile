@@ -33,9 +33,15 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 . $HOME/.files/vim_dev.sh
 
-export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
 # export JAVA_HOME="${HOME}/.sdkman/candidates/java/current"
-export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/'
+
+# JDK 8
+export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
+ export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/'
+
+# JDK 9
+#export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m'
+#export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home/'
 launchctl setenv JAVA_HOME "${JAVA_HOME}"
 
 export GOPATH="$HOME/dev/go"
@@ -50,12 +56,41 @@ alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid='groovy -e "println UUID.randomUUID()"'
 alias kc=kubectl
-alias updatepass='gopass git --store wms pull'
+alias updatepass='gopass git --store ole-auto     pull && 
+                  gopass git --store ole-auto-k8s pull && 
+                  gopass git --store ole-k8s      pull && 
+                  gopass git --store wms          pull'
+
 alias vimrc='nv ~/.vim/vimrc'
-alias pods='kubectl get pods'
 alias dcd='docker-compose down'
 alias dcu='docker-compose up -d'
 alias grc='gradle --continuous'
+alias ked='kubectl edit deployment'
+alias kgc='kubectl get configmap -o yaml'
+alias cat='bat'
+alias top='htop'
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias pyserve='python -m SimpleHTTPServer'
+
+function pods() {
+    on=$'\e[1;49;37m'
+    green=$'\e[1;49;32m'
+    red=$'\e[1;49;31m'
+    yellow=$'\e[1;49;33m'
+    off=$'\e[m'
+    kubectl get pods | \
+    sed -e "s/[[:blank:]]\([0-9]*[1-9][0-9]*\)[[:blank:]]/ $red\1$off /g" \
+    -e "s/\(ContainerCreating\)/$yellow\1$off/g" \
+    -e "s/\(Running\)/$green\1$off/g" \
+    -e "s/\(Terminating\)/$red\1$off/g" \
+    -e "s/\(CrashLoopBackOff\)/$red\1$off/g" \
+    -e "s/\(Error\)/$red\1$off/g" \
+    -e "s/\(0\/1\)/$red\1$off/g" \
+    -e "s/[[:blank:]]\([0-9][0-9]*s\)/ $red\1$off /g" \
+    -e "s/[[:blank:]]\([0-9][0-9]*m\)/ $yellow\1$off /g" \
+    -e "s/[[:blank:]]\([0-9][0-9]*h\)/ $green\1$off /g" \
+    -e "s/[[:blank:]]\([0-9][0-9]*d\)/ $green\1$off /g"
+}
 
 function g-findword() {
     grep --include '*.java' --include '*.groovy' --include '*.gsp' --include '*.gradle' -rE "\<${1}\>" .
@@ -72,6 +107,7 @@ function configurePrompt() {
     export fancy_arrow='➦'
     export fancy_fail='✘'
     export beer='🍺 '
+    export coffee='☕ '
     export move_right='\e[1C'
 
     export GIT_PS1_SHOWDIRTYSTATE=1
@@ -96,7 +132,7 @@ function configurePrompt() {
         source "$(brew --prefix bash-git-prompt)/share/gitprompt.sh"
     fi
 
-    # [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+    # Seeing: "sed: RE error: illegal byte sequence" here...
     source "$(brew --prefix bash-completion)/etc/bash_completion"
 
     __git_complete kc kubectl
@@ -121,12 +157,11 @@ if [ -d "/usr/local/opt/python/libexec/bin" ]; then
     export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 fi
 
-alias pyserve='python -m SimpleHTTPServer'
 
 function useZirbesAwsCreds() {
-    echo "Using aaronzirbes AWS Creds"
     if [ -r $HOME/dev/zirbes.awscreds ]; then
-        . $HOME/dev/zirbes.awscreds
+        echo "Using aaronzirbes AWS Creds"
+        source $HOME/dev/zirbes.awscreds
     fi
 }
 
@@ -148,14 +183,12 @@ if [ -d /usr/local/opt/postgresql@9.6/bin ]; then
 fi
 
 if [ -f ${HOME}/bin/kubeforward.sh ]; then
-    . ${HOME}/bin/kubeforward.sh 
+    source ${HOME}/bin/kubeforward.sh 
 fi
 
 export ANDROID_SDK_HOME="${HOME}/dev/android/sdk/24.3.3/android-sdk-macosx"
 
 set -o vi
-
-[ -s "${HOME}/Dropbox/tgt/sdkman-init.sh" ] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 
 # Java Environment manager
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
@@ -172,14 +205,14 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 export LDAP_BIND_PASSWORD="$(gopass wms/nuid/svolewms)"
 
 export ANDROID_HOME=/usr/local/share/android-sdk
-# Source drone configuration
-[ -s "${HOME}/ole/.drone_config" ] && source ~/ole/.drone_config
 
-eval "$(ssh-agent -s)"
+eval "$(ssh-agent -s)" >> /dev/null
 export EDITOR=nvim
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="${HOME}/.sdkman"
+[ -s "${HOME}/bin/.local_profile" ] && source "${HOME}/bin/.local_profile"
 [ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
-[ -e "${HOME}/.iterm2_shell_integration.bash" ] && . "${HOME}/.iterm2_shell_integration.bash"
-
+[ -e "${HOME}/.iterm2_shell_integration.bash" ] && source "${HOME}/.iterm2_shell_integration.bash"
+[ -f /usr/local/etc/profile.d/autojump.sh ] && source /usr/local/etc/profile.d/autojump.sh
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
