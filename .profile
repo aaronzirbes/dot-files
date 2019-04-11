@@ -13,6 +13,8 @@ export PATH="/usr/local/share/npm/bin:$PATH"
 export PATH="$PATH:`yarn global bin`"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+### Added by Pyhon pipenv
+export PATH="/Users/z002s5d/Library/Python/3.6/bin:$PATH"
 
 # export PORTAL_E2E_USER="connectedfleetautomation-ug+admin@peoplenetonline.com"
 # export PORTAL_E2E_PASS="Password1"
@@ -31,17 +33,32 @@ export GREP_OPTIONS='--color=auto'
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
+# Consul
+#export CONSUL_HOST='localhost'
+#export CONSUL_PORT='8500'
+#export CONSUL_URI='http://localhost:8500'
+#export VAULT_URI='http://localhost:8200'
+#export VAULT_TOKEN='default-token'
+
+# From brew install mono
+export MONO_GAC_PREFIX="/usr/local"
+
 . $HOME/.files/vim_dev.sh
 
 # export JAVA_HOME="${HOME}/.sdkman/candidates/java/current"
 
 # JDK 8
 export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
- export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/'
+export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/'
 
 # JDK 9
-#export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m'
-#export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home/'
+# export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m'
+# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home/'
+
+# JDK11
+# export JAVA_OPTS='-Djava.awt.headless=true -Xms2G -Xmx2G'
+# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk-11+28/Contents/Home/'
+
 launchctl setenv JAVA_HOME "${JAVA_HOME}"
 
 export GOPATH="$HOME/dev/go"
@@ -70,7 +87,8 @@ alias kgc='kubectl get configmap -o yaml'
 alias cat='bat'
 alias top='htop'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
-alias pyserve='python -m SimpleHTTPServer'
+alias pyserve='python -m http.server'
+alias mast='git co master'
 
 function pods() {
     on=$'\e[1;49;37m'
