@@ -45,11 +45,11 @@ export MONO_GAC_PREFIX="/usr/local"
 
 . $HOME/.files/vim_dev.sh
 
-# export JAVA_HOME="${HOME}/.sdkman/candidates/java/current"
+#export JAVA_HOME="${HOME}/.sdkman/candidates/java/current"
 
 # JDK 8
-export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
-export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/'
+# export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m -XX:+UseConcMarkSweepGC'
+# export JAVA_HOME='/Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Home/'
 
 # JDK 9
 # export JAVA_OPTS='-Djava.awt.headless=true -Xms1536m -Xmx1536m'
@@ -71,7 +71,7 @@ alias gh='hub browse'
 alias nv=nvim
 alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
-alias uuid='groovy -e "println UUID.randomUUID()"'
+alias uuid="uuidgen |tr '[:upper:]' '[:lower:]'"
 alias kc=kubectl
 alias updatepass='gopass git --store ole-auto     pull && 
                   gopass git --store ole-auto-k8s pull && 
@@ -89,6 +89,7 @@ alias top='htop'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias pyserve='python -m http.server'
 alias mast='git co master'
+alias deploy_app="docker run --rm -e MODE=SEND_DEPLOY -eGITTOKEN=\$(gopass ole-auto-tap/hooky_token)   -e OWNER=ole-acs -e PROMPT=true  -i docker.target.com/warehousing/hooky"
 
 function pods() {
     on=$'\e[1;49;37m'
@@ -220,7 +221,10 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 # Using ruby 2.2.3
 #chruby ruby-2.2.3
 
-export LDAP_BIND_PASSWORD="$(gopass wms/nuid/svolewms)"
+# Source Target stuffs
+. $HOME/bin/tgt_vars
+
+#export LDAP_BIND_PASSWORD="$(gopass wms/nuid/svolewms)"
 
 export ANDROID_HOME=/usr/local/share/android-sdk
 
@@ -229,6 +233,7 @@ export EDITOR=nvim
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="${HOME}/.sdkman"
+[ -e /usr/local/share/git-fuzzy ] && export PATH="/usr/local/share/git-fuzzy/bin:$PATH"
 [ -s "${HOME}/bin/.local_profile" ] && source "${HOME}/bin/.local_profile"
 [ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 [ -e "${HOME}/.iterm2_shell_integration.bash" ] && source "${HOME}/.iterm2_shell_integration.bash"
