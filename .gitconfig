@@ -19,25 +19,25 @@
 [push]
     default = simple
 [alias]
-    bsum = branch --set-upstream-to=upstream/master
+    bsum = branch --set-upstream-to=upstream/main
     b = branch -vv
     caa = commit -a --amend
     cd = checkout develop
-    cm = checkout master
+    cm = checkout main
     co = checkout
-    df = diff --relative -w --name-only upstream/master
+    df = diff --relative -w --name-only upstream/main
     dtud = difftool upstream/develop..HEAD --
-    du = diff --relative -w upstream/master
-    dus = diff --relative -w upstream/master --stat
+    du = diff --relative -w upstream/main
+    dus = diff --relative -w upstream/main --stat
     fa = fetch --all
     ffp = flow feature publish
     ffs = flow feature start
     l = log --relative --graph -n 100
     ls = log --relative --graph --stat -n 100
     pf = "!if [ `git rev-parse --abbrev-ref --symbolic-full-name '@{u}' |sed -e 's#/.*##'` != 'upstream' ]; then git push -f; else echo 'DO NOT PUSH FORCE TO UPSTREAM'; fi"
-    prum = pull --rebase upstream master
+    prum = pull --rebase upstream main
     pu = push -u origin HEAD
-    rium = !git rebase -i `git merge-base upstream/master HEAD` && git rebase upstream/master
+    rium = !git rebase -i `git merge-base upstream/main HEAD` && git rebase upstream/main
     rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     s = status
 
