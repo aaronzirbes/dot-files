@@ -22,8 +22,8 @@
     bsum = branch --set-upstream-to=upstream/main
     b = branch -vv
     caa = commit -a --amend
-    cd = checkout develop
     cm = checkout main
+    cd = checkout deployment
     co = checkout
     df = diff --relative -w --name-only upstream/main
     dtud = difftool upstream/develop..HEAD --
@@ -48,6 +48,7 @@
 [hub]
     host = git.target.com
     host = gist.git.target.com
+	host = git.target.com
 [pager]
    diff = diff-so-fancy | less --tabs=1,5 -RFX
    show = diff-so-fancy | less --tabs=1,5 -RFX
@@ -56,3 +57,5 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[pull]
+	rebase = true

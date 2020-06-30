@@ -14,13 +14,7 @@ export PATH="$PATH:`yarn global bin`"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 ### Added by Pyhon pipenv
-export PATH="/Users/z002s5d/Library/Python/3.6/bin:$PATH"
-
-# export PORTAL_E2E_USER="connectedfleetautomation-ug+admin@peoplenetonline.com"
-# export PORTAL_E2E_PASS="Password1"
-
-export PORTAL_E2E_USER="azirbes@peoplenetonline.com"
-export PORTAL_E2E_PASS="Z?VJTLM9o[7fTev3thd"
+export PATH="$HOME/Library/Python/3.6/bin:$PATH"
 
 # ctags
 export CTAGS='-f ./.tags --exclude=.git --exclude=node_modules --exclude=build'
@@ -82,14 +76,11 @@ alias vimrc='nv ~/.vim/vimrc'
 alias dcd='docker-compose down'
 alias dcu='docker-compose up -d'
 alias grc='gradle --continuous'
-alias ked='kubectl edit deployment'
-alias kgc='kubectl get configmap -o yaml'
 alias cat='bat'
 alias top='htop'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias pyserve='python -m http.server'
 alias mast='git co master'
-alias deploy_app="docker run --rm -e MODE=SEND_DEPLOY -eGITTOKEN=\$(gopass ole-auto-tap/hooky_token)   -e OWNER=ole-acs -e PROMPT=true  -i docker.target.com/warehousing/hooky"
 
 function pods() {
     on=$'\e[1;49;37m'
@@ -227,6 +218,11 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 #export LDAP_BIND_PASSWORD="$(gopass wms/nuid/svolewms)"
 
 export ANDROID_HOME=/usr/local/share/android-sdk
+
+export BASH_SILENCE_DEPRECATION_WARNING=1
+export TMPDIR=`mktemp -d -t ajztemp`
+chown -R `whoami` $TMPDIR
+launchctl setenv TMPDIR "${TMPDIR}"
 
 eval "$(ssh-agent -s)" >> /dev/null
 export EDITOR=nvim
