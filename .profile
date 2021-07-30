@@ -67,10 +67,6 @@ alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid="uuidgen |tr '[:upper:]' '[:lower:]'"
 alias kc=kubectl
-alias updatepass='gopass git --store ole-auto     pull && 
-                  gopass git --store ole-auto-k8s pull && 
-                  gopass git --store ole-k8s      pull && 
-                  gopass git --store wms          pull'
 
 alias vimrc='nv ~/.vim/vimrc'
 alias dcd='docker-compose down'
@@ -163,11 +159,6 @@ function configureDocker() {
 # configureDocker
 export DOCKER_IP=127.0.0.1
 
-if [ -d "/usr/local/opt/python/libexec/bin" ]; then
-    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-fi
-
-
 function useZirbesAwsCreds() {
     if [ -r $HOME/dev/zirbes.awscreds ]; then
         echo "Using aaronzirbes AWS Creds"
@@ -186,10 +177,6 @@ configureAwsCreds
 
 if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
     export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
-fi
-
-if [ -d /usr/local/opt/postgresql@9.6/bin ]; then
-    export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
 fi
 
 if [ -f ${HOME}/bin/kubeforward.sh ]; then
@@ -215,8 +202,6 @@ if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 # Source Target stuffs
 . $HOME/bin/tgt_vars
 
-#export LDAP_BIND_PASSWORD="$(gopass wms/nuid/svolewms)"
-
 export ANDROID_HOME=/usr/local/share/android-sdk
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
@@ -224,14 +209,23 @@ export TMPDIR=`mktemp -d -t ajztemp`
 chown -R `whoami` $TMPDIR
 launchctl setenv TMPDIR "${TMPDIR}"
 
+# Python
+#export CFLAGS="-I$(brew --prefix openssl)/include $CFLAGS"
+#export LDFLAGS="-L$(brew --prefix openssl)/lib $LDFLAGS"
+export PYENV_ROOT="$HOME/.pyenv"
+eval "$(pyenv init -)"
+
 eval "$(ssh-agent -s)" >> /dev/null
 export EDITOR=nvim
+export NVM_DIR="$HOME/.nvm"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="${HOME}/.sdkman"
-[ -e /usr/local/share/git-fuzzy ] && export PATH="/usr/local/share/git-fuzzy/bin:$PATH"
 [ -s "${HOME}/bin/.local_profile" ] && source "${HOME}/bin/.local_profile"
 [ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 [ -e "${HOME}/.iterm2_shell_integration.bash" ] && source "${HOME}/.iterm2_shell_integration.bash"
 [ -f /usr/local/etc/profile.d/autojump.sh ] && source /usr/local/etc/profile.d/autojump.sh
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -e /usr/local/share/git-fuzzy ] && export PATH="/usr/local/share/git-fuzzy/bin:$PATH"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

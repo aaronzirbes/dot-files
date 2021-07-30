@@ -23,19 +23,21 @@
     b = branch -vv
     caa = commit -a --amend
     cm = checkout main
-    cd = checkout deployment
+    ct = checkout tap-configs
     co = checkout
     df = diff --relative -w --name-only upstream/main
-    dtud = difftool upstream/develop..HEAD --
     du = diff --relative -w upstream/main
+    dt = diff --relative -w upstream/tap-configs
     dus = diff --relative -w upstream/main --stat
+    dut = diff --relative -w upstream/tap-configs --stat
     fa = fetch --all
     l = log --relative --graph -n 100
     ls = log --relative --graph --stat -n 100
     pf = "!if [ `git rev-parse --abbrev-ref --symbolic-full-name '@{u}' |sed -e 's#/.*##'` != 'upstream' ]; then git push -f; else echo 'DO NOT PUSH FORCE TO UPSTREAM'; fi"
-    prum = pull --rebase upstream main
     pu = push -u origin HEAD
     rium = !git rebase -i `git merge-base upstream/main HEAD` && git rebase upstream/main
+    riuma = !git rebase -i `git merge-base upstream/master HEAD` && git rebase upstream/master
+    riut = !git rebase -i `git merge-base upstream/tap-configs HEAD` && git rebase upstream/tap-configs
     ra = "!git remote add ${1} ``"
     rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     s = status
@@ -48,14 +50,13 @@
 [hub]
     host = git.target.com
     host = gist.git.target.com
-	host = git.target.com
 [pager]
-   diff = diff-so-fancy | less --tabs=1,5 -RFX
-   show = diff-so-fancy | less --tabs=1,5 -RFX
+    diff = diff-so-fancy | less --tabs=1,5 -RFX
+    show = diff-so-fancy | less --tabs=1,5 -RFX
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
 [pull]
-	rebase = true
+    rebase = true
