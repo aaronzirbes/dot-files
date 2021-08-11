@@ -39,8 +39,15 @@ function linkall() {
     popd &> /dev/null
 }
 
+function homebrew() {
+    pushd ~/.files &> /dev/null
+    brew bundle
+    popd &> /dev/null
+}
+
 cloneRepo
 linkall
+homebrew
 
 echo "Done!"
 
