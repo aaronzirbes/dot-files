@@ -9,8 +9,6 @@ export PATH="$HOME/bin:/usr/local/sbin:$PATH"
 export PATH="/usr/local/Cellar/ruby/1.9.3-p362/bin:$PATH"
 #o Adding NPM to path
 export PATH="/usr/local/share/npm/bin:$PATH"
-# Adding Yarn to path
-export PATH="$PATH:`yarn global bin`"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 ### Added by Pyhon pipenv
@@ -61,14 +59,14 @@ export PATH="$GOPATH/bin:$PATH"
 
 alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
-alias gh='hub browse'
+alias ghb='gh browse'
 alias nv=nvim
 alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid="uuidgen |tr '[:upper:]' '[:lower:]'"
-alias kc=kubectl
 
 alias vimrc='nv ~/.vim/vimrc'
+alias docker-start='colima start'
 alias dcd='docker-compose down'
 alias dcu='docker-compose up -d'
 alias grc='gradle --continuous'
@@ -113,7 +111,9 @@ function configurePrompt() {
     export fancy_arrow='➦'
     export fancy_fail='✘'
     export beer='🍺 '
+    export wine='🍷 '
     export coffee='☕ '
+    export cat='😺 '
     export move_right='\e[1C'
 
     export GIT_PS1_SHOWDIRTYSTATE=1
@@ -125,10 +125,10 @@ function configurePrompt() {
         GIT_PROMPT_THEME=Solarized
         # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
         if [ "$VIMRUNTIME" != "" ]; then
-            # Neo vim has an odd alignment issue in the terminal emulator for the beer character
+            # Neo vim has an odd alignment issue in the terminal emulator for the beer/wine/coffee character
             GIT_PROMPT_END='\e[1;34m `date`\e[0m\n\e[1;32mVim $\e[0m '
         else
-            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${beer} '
+            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${cat} '
         fi
 
        # as last entry source the gitprompt script
@@ -141,7 +141,6 @@ function configurePrompt() {
     # Seeing: "sed: RE error: illegal byte sequence" here...
     source "$(brew --prefix bash-completion)/etc/bash_completion"
 
-    __git_complete kc kubectl
 }
 configurePrompt
 
@@ -152,11 +151,6 @@ function configureDockerOld() {
 }
 
 
-function configureDocker() {
-    eval "$(/usr/local/bin/docker-machine env dev)"
-}
-
-# configureDocker
 export DOCKER_IP=127.0.0.1
 
 function useZirbesAwsCreds() {
@@ -173,15 +167,6 @@ function configureAwsCreds() {
     export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.7.1.0/libexec"
 }
 
-configureAwsCreds
-
-if [ -d /usr/local/kafka/kafka_2.11-0.8.2.0/bin ]; then
-    export PATH="${PATH}:/usr/local/kafka/kafka_2.11-0.8.2.0/bin"
-fi
-
-if [ -f ${HOME}/bin/kubeforward.sh ]; then
-    source ${HOME}/bin/kubeforward.sh 
-fi
 
 export ANDROID_SDK_HOME="${HOME}/dev/android/sdk/24.3.3/android-sdk-macosx"
 

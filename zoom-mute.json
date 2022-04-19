@@ -1,0 +1,22 @@
+{
+  "title": "Zoom",
+  "rules": [
+    {
+      "description": "Map sleep to Command + Shift + A",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "consumer_key_code": "sleep"
+          },
+          "to": [
+            {
+              "key_code": "a",
+              "modifiers": ["left_command", "left_shift"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
