@@ -14,3 +14,9 @@ yarn.lock
 .yarnclean
 .ignore
 .ctags-projects
+secrets.sh
+*.dtmp
+TapLabToken.groovy
+.*.drawio.bkp
+stacktrace.txt
+*-secrets.sh

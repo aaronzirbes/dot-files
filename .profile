@@ -64,6 +64,8 @@ alias nv=nvim
 alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid="uuidgen |tr '[:upper:]' '[:lower:]'"
+alias cdcl="cd ~/i/clusters/"
+alias cdto="cd ~/i/topics/"
 
 alias vimrc='nv ~/.vim/vimrc'
 alias docker-start='colima start'
@@ -114,7 +116,11 @@ function configurePrompt() {
     export wine='🍷 '
     export coffee='☕ '
     export cat='😺 '
+    export lamp='🪔 '
+    export leaves_fall='🍂 '
+    export jack_o_lantern='🎃 '
     export move_right='\e[1C'
+    export snowflake='❄️ '
 
     export GIT_PS1_SHOWDIRTYSTATE=1
     export GIT_PS1_SHOWSTASHSTATE=1
@@ -128,7 +134,7 @@ function configurePrompt() {
             # Neo vim has an odd alignment issue in the terminal emulator for the beer/wine/coffee character
             GIT_PROMPT_END='\e[1;34m `date`\e[0m\n\e[1;32mVim $\e[0m '
         else
-            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${cat} '
+            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${snowflake} '
         fi
 
        # as last entry source the gitprompt script
@@ -214,3 +220,5 @@ export SDKMAN_DIR="${HOME}/.sdkman"
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 [ -e /usr/local/share/git-fuzzy ] && export PATH="/usr/local/share/git-fuzzy/bin:$PATH"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# For pairing
+#cd ~/Users/z002s5d/dev/pairing/price-calculator
