@@ -20,3 +20,5 @@ TapLabToken.groovy
 .*.drawio.bkp
 stacktrace.txt
 *-secrets.sh
+Insomnia_*.json
+notes/*

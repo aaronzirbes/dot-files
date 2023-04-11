@@ -14,6 +14,14 @@ export PATH="/usr/local/heroku/bin:$PATH"
 ### Added by Pyhon pipenv
 export PATH="$HOME/Library/Python/3.6/bin:$PATH"
 
+# Homebrew
+export HOMEBREW_PREFIX="/opt/homebrew";
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+export HOMEBREW_REPOSITORY="/opt/homebrew";
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+
 # ctags
 export CTAGS='-f ./.tags --exclude=.git --exclude=node_modules --exclude=build'
  
@@ -61,11 +69,12 @@ alias ll='ls -l'
 alias getopt="$(brew --prefix gnu-getopt)/bin/getopt"
 alias ghb='gh browse'
 alias nv=nvim
-alias gremlin='~/dse/bin/dse gremlin-console'
+# alias gremlin='~/dse/bin/dse gremlin-console'
 alias ubuntu='docker run -i -t ubuntu:14.04 bash'
 alias uuid="uuidgen |tr '[:upper:]' '[:lower:]'"
 alias cdcl="cd ~/i/clusters/"
 alias cdto="cd ~/i/topics/"
+alias format="gradle spotlessApply"
 
 alias vimrc='nv ~/.vim/vimrc'
 alias docker-start='colima start'
@@ -107,12 +116,13 @@ function j-findword() {
 }
 
 
-function configurePrompt() {
+function promptEmoji() {
     export simple_arrow='→'
     export simple_fail='!'
     export fancy_arrow='➦'
     export fancy_fail='✘'
     export beer='🍺 '
+    export shamrock='☘️ '
     export wine='🍷 '
     export coffee='☕ '
     export cat='😺 '
@@ -121,6 +131,18 @@ function configurePrompt() {
     export jack_o_lantern='🎃 '
     export move_right='\e[1C'
     export snowflake='❄️ '
+
+    now_hour=`date +%H|sed -e 's/^0//'`
+
+    if (( $now_hour < 16 )); then
+        echo -n $coffee
+    else
+        echo -n $shamrock
+    fi
+}
+
+
+function configurePrompt() {
 
     export GIT_PS1_SHOWDIRTYSTATE=1
     export GIT_PS1_SHOWSTASHSTATE=1
@@ -132,9 +154,9 @@ function configurePrompt() {
         # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
         if [ "$VIMRUNTIME" != "" ]; then
             # Neo vim has an odd alignment issue in the terminal emulator for the beer/wine/coffee character
-            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n\e[1;32mVim $\e[0m '
+            GIT_PROMPT_END='\e[1;34m $(promptEmoji) `date`\e[0m\n\e[1;32mVim $\e[0m '
         else
-            GIT_PROMPT_END='\e[1;34m `date`\e[0m\n${snowflake} '
+            GIT_PROMPT_END='\e[1;34m $(promptEmoji) `date`\e[0m\n$ '
         fi
 
        # as last entry source the gitprompt script
@@ -150,14 +172,10 @@ function configurePrompt() {
 }
 configurePrompt
 
-function configureDockerOld() {
-    export DOCKER_TLS_VERIFY=1
-    export DOCKER_HOST=tcp://192.168.59.103:2376
-    export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm
-}
-
-
 export DOCKER_IP=127.0.0.1
+
+export TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE=/var/run/docker.sock
+export DOCKER_HOST="unix://${HOME}/.colima/docker.sock"
 
 function useZirbesAwsCreds() {
     if [ -r $HOME/dev/zirbes.awscreds ]; then
@@ -221,4 +239,4 @@ export SDKMAN_DIR="${HOME}/.sdkman"
 [ -e /usr/local/share/git-fuzzy ] && export PATH="/usr/local/share/git-fuzzy/bin:$PATH"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # For pairing
-#cd ~/Users/z002s5d/dev/pairing/price-calculator
+#cd /Users/Z002S5D/dev/pairing/price-calculator
