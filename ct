@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Derive session name from current directory
+SESSION_NAME="${PWD##*/}"
+
+# Banner
+printf '\033[1;36m'
+cat << 'BANNER'
+  ╔══════════════════════════════╗
+  ║  ◆  CLAUDE · AGENT TEAMS  ◆ ║
+  ╚══════════════════════════════╝
+BANNER
+printf '\033[0;33m  session: %s\033[0m\n\n' "$SESSION_NAME"
+
+# Enable agent teams
+export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+
+# Create session if it doesn't exist
+if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+  tmux new-session -d -s "$SESSION_NAME" \
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 claude --remote-control \"$SESSION_NAME\""
+fi
+
+exec tmux attach-session -t "$SESSION_NAME"
