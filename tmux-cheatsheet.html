@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>tmux Cheat Sheet</title>
+<style>
+  @page { size: letter; margin: 0.5in; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "SF Mono", "Fira Code", "JetBrains Mono", Menlo, monospace;
+    font-size: 11px;
+    color: #1a1a2e;
+    background: #fff;
+    padding: 0.5in;
+    max-width: 8.5in;
+  }
+  h1 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 4px;
+    color: #0f3460;
+    letter-spacing: 2px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 10px;
+    color: #888;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #0f3460;
+    padding-bottom: 10px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .section {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 12px;
+    break-inside: avoid;
+  }
+  .section h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #fff;
+    background: #0f3460;
+    margin: -10px -12px 8px -12px;
+    padding: 5px 12px;
+    border-radius: 5px 5px 0 0;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  tr:not(:last-child) td { border-bottom: 1px solid #eee; }
+  td { padding: 3px 0; vertical-align: top; }
+  td:first-child {
+    white-space: nowrap;
+    font-weight: bold;
+    color: #e94560;
+    width: 45%;
+    padding-right: 8px;
+  }
+  td:last-child { color: #333; }
+  kbd {
+    display: inline-block;
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0 4px;
+    font-size: 10px;
+    font-family: inherit;
+    line-height: 1.6;
+    box-shadow: 0 1px 0 #aaa;
+  }
+  .note {
+    font-size: 9.5px;
+    color: #666;
+    margin-top: 6px;
+    padding-top: 5px;
+    border-top: 1px dashed #ddd;
+    line-height: 1.4;
+  }
+  .prefix-note {
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 14px;
+    padding: 8px;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 6px;
+  }
+  .prefix-note kbd { font-size: 12px; }
+  .full-width { grid-column: 1 / -1; }
+  @media print {
+    body { padding: 0; }
+    .section { border-color: #bbb; }
+  }
+</style>
+</head>
+<body>
+
+<h1>⌨ TMUX CHEAT SHEET</h1>
+<div class="subtitle">vim-style config &middot; prefix is Ctrl-a &middot; ~/.tmux.conf</div>
+
+<div class="prefix-note">
+  Prefix = <kbd>Ctrl</kbd> + <kbd>a</kbd> &mdash; press this before every command below
+</div>
+
+<div class="grid">
+
+  <div class="section">
+    <h2>Panes &mdash; Navigation</h2>
+    <table>
+      <tr><td><kbd>prefix</kbd> <kbd>h</kbd></td><td>Move left</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>j</kbd></td><td>Move down</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>k</kbd></td><td>Move up</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>l</kbd></td><td>Move right</td></tr>
+    </table>
+    <div class="note">Also works: click any pane with the mouse.</div>
+  </div>
+
+  <div class="section">
+    <h2>Panes &mdash; Splitting</h2>
+    <table>
+      <tr><td><kbd>prefix</kbd> <kbd>|</kbd></td><td>Split horizontal (side by side)</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>-</kbd></td><td>Split vertical (top / bottom)</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>x</kbd></td><td>Close current pane</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>z</kbd></td><td>Toggle pane zoom (fullscreen)</td></tr>
+    </table>
+    <div class="note">New panes open in the same working directory.</div>
+  </div>
+
+  <div class="section">
+    <h2>Panes &mdash; Resizing</h2>
+    <table>
+      <tr><td><kbd>prefix</kbd> <kbd>H</kbd></td><td>Grow left (5 cells)</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>J</kbd></td><td>Grow down</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>K</kbd></td><td>Grow up</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>L</kbd></td><td>Grow right</td></tr>
+    </table>
+    <div class="note">Repeatable &mdash; hold prefix, tap direction multiple times. Also: drag borders with mouse.</div>
+  </div>
+
+  <div class="section">
+    <h2>Windows</h2>
+    <table>
+      <tr><td><kbd>prefix</kbd> <kbd>c</kbd></td><td>New window</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>n</kbd></td><td>Next window</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>p</kbd></td><td>Previous window</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>1</kbd>&ndash;<kbd>9</kbd></td><td>Jump to window #</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>,</kbd></td><td>Rename window</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>&amp;</kbd></td><td>Close window</td></tr>
+    </table>
+    <div class="note">Windows are numbered starting at 1.</div>
+  </div>
+
+  <div class="section">
+    <h2>Copy Mode <span style="font-weight:normal;font-size:10px;color:#ccc">(vi keys)</span></h2>
+    <table>
+      <tr><td><kbd>prefix</kbd> <kbd>Enter</kbd></td><td>Enter copy mode</td></tr>
+      <tr><td><kbd>v</kbd></td><td>Begin selection</td></tr>
+      <tr><td><kbd>y</kbd></td><td>Yank (copy) &amp; exit</td></tr>
+      <tr><td><kbd>Escape</kbd></td><td>Cancel / exit copy mode</td></tr>
+      <tr><td><kbd>/</kbd></td><td>Search forward</td></tr>
+      <tr><td><kbd>?</kbd></td><td>Search backward</td></tr>
+    </table>
+    <div class="note">Navigate with h/j/k/l, Ctrl-u/d for half-page scroll. Mouse scroll also enters copy mode.</div>
+  </div>
+
+  <div class="section">
+    <h2>Sessions</h2>
+    <table>
+      <tr><td><kbd>prefix</kbd> <kbd>d</kbd></td><td>Detach from session</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>s</kbd></td><td>List / switch sessions</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>$</kbd></td><td>Rename session</td></tr>
+      <tr><td><kbd>prefix</kbd> <kbd>r</kbd></td><td>Reload tmux.conf</td></tr>
+    </table>
+    <div class="note"><kbd>prefix</kbd> <kbd>d</kbd> detaches &mdash; the session keeps running in the background.</div>
+  </div>
+
+  <div class="section full-width">
+    <h2>Command Line</h2>
+    <table>
+      <tr><td><code>tmux new -s name</code></td><td>Create a new named session</td></tr>
+      <tr><td><code>tmux attach -t name</code></td><td>Reattach to a running session</td></tr>
+      <tr><td><code>tmux ls</code></td><td>List all sessions</td></tr>
+      <tr><td><code>tmux kill-session -t name</code></td><td>Kill a session</td></tr>
+      <tr><td><code>tmux kill-server</code></td><td>Kill tmux and all sessions</td></tr>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>
