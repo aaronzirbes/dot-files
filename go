@@ -1,53 +1,38 @@
 #!/bin/bash
 
+set -e
+
+DOTFILES_DIR="$HOME/.files"
+
 function cloneRepo() {
-    if [ ! -d ~/.files/ ]; then
-        echo "cloning https://github.com/aaronzirbes/dot-files.git to ~/.files"
-        git clone https://github.com/aaronzirbes/dot-files.git ~/.files
+    if [ ! -d "$DOTFILES_DIR" ]; then
+        echo "Cloning dot-files to $DOTFILES_DIR..."
+        git clone https://github.com/aaronzirbes/dot-files.git "$DOTFILES_DIR"
     else
-        echo "~/.files/ already exists. skipping clone."
+        echo "$DOTFILES_DIR already exists, skipping clone."
     fi
 }
 
-function linkit() {
-    source_file="${1}"
-    dest_file="${2}"
-
-    if [ ! -e ~/${dest_file} ]; then
-        echo "Linking '${source_file}' to '${dest_file}'..."
-        ln -s ~/.files/${source_file} ~/${dest_file}
-    else
-        echo -e -n "${source_file} already exists\n\t"
-        ls -l ~/${source_file}
+function installPackages() {
+    if ! command -v brew &>/dev/null; then
+        echo "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
 
+    echo "Installing packages from Brewfile..."
+    brew bundle --file="$DOTFILES_DIR/Brewfile"
 }
 
-function linkall() {
-
-    pushd ~/.files &> /dev/null
-
-    for file in .gitconfig \
-                .gitflow_export \
-                .gitignore_global \
-                .profile; do
-        linkit ${file} ${file}
-    done
-
-    linkit .profile .bashrc
-
-    popd &> /dev/null
-}
-
-function homebrew() {
-    pushd ~/.files &> /dev/null
-    brew bundle
-    popd &> /dev/null
+function stowPackages() {
+    echo "Linking dotfiles with stow..."
+    mkdir -p ~/.config
+    cd "$DOTFILES_DIR"
+    stow -v zsh git tmux starship
 }
 
 cloneRepo
-linkall
-homebrew
+installPackages
+stowPackages
 
-echo "Done!"
-
+echo "Done! Open a new terminal to use your new zsh config."

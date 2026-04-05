@@ -2,7 +2,7 @@
     name = Aaron J. Zirbes
     email = aaron.zirbes@gmail.com
 [core]
-    excludesfile = /Users/z002s5d/.gitignore_global
+    excludesfile = ~/.gitignore_global
     editor = vim
 [merge]
     tool = vimdiff
@@ -23,21 +23,16 @@
     b = branch -vv
     caa = commit -a --amend
     cm = checkout main
-    ct = checkout tap-configs
     co = checkout
     df = diff --relative -w --name-only upstream/main
     du = diff --relative -w upstream/main
-    dt = diff --relative -w upstream/tap-configs
     dus = diff --relative -w upstream/main --stat
-    dut = diff --relative -w upstream/tap-configs --stat
     fa = fetch --all
     l = log --relative --graph -n 100
     ls = log --relative --graph --stat -n 100
     pf = "!if [ `git rev-parse --abbrev-ref --symbolic-full-name '@{u}' |sed -e 's#/.*##'` != 'upstream' ]; then git push -f; else echo 'DO NOT PUSH FORCE TO UPSTREAM'; fi"
     pu = push -u origin HEAD
     rium = !git rebase -i `git merge-base upstream/main HEAD` && git rebase upstream/main
-    riuma = !git rebase -i `git merge-base upstream/master HEAD` && git rebase upstream/master
-    riut = !git rebase -i `git merge-base upstream/tap-configs HEAD` && git rebase upstream/tap-configs
     ra = "!git remote add ${1} ``"
     rt = rev-parse --symbolic-full-name --abbrev-ref HEAD@{u}
     s = status
@@ -47,12 +42,14 @@
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
-[hub]
-    host = git.target.com
-    host = gist.git.target.com
 [pager]
-    diff = diff-so-fancy | less --tabs=1,5 -RFX
-    show = diff-so-fancy | less --tabs=1,5 -RFX
+    diff = delta
+    show = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    side-by-side = true
 [filter "lfs"]
     required = true
     clean = git-lfs clean -- %f
