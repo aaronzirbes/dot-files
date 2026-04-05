@@ -31,8 +31,15 @@ function stowPackages() {
     stow -v zsh git tmux starship
 }
 
+function linkScripts() {
+    echo "Linking scripts to ~/.local/bin..."
+    mkdir -p ~/.local/bin
+    ln -sf "$DOTFILES_DIR/ct" ~/.local/bin/ct
+}
+
 cloneRepo
 installPackages
 stowPackages
+linkScripts
 
 echo "Done! Open a new terminal to use your new zsh config."
